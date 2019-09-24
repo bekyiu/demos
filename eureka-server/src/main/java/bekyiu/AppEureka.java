@@ -11,5 +11,6 @@ public class AppEureka
     public static void main(String[] args)
     {
         SpringApplication.run(AppEureka.class, args);
+
     }
 }

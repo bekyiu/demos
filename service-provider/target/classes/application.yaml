@@ -1,5 +1,5 @@
 server:
-  port: 8081
+  port: 8082
 
 spring:
   datasource:
@@ -9,14 +9,19 @@ spring:
       username: root
       password: Louise
   application:
-    name: service-provider # ע�ᵽeureka��ķ�������
+    name: service-provider # 注册到eureka后的服务名称
 
 mybatis:
   type-aliases-package: bekyiu.domain
   mapper-locations: classpath:mappers/*Mapper.xml
 
-# Eureka Clientע�ᵽEureka Serverʱ������������һ���������Eureka Client��Ҫ֪��Server�ĵ�ַ
+# Eureka Client注册到Eureka Server时，首先遇到第一个问题就是Eureka Client端要知道Server的地址
+# 集群启动失败, 可能是因为热部署的问题!!
 eureka:
   client:
     service-url:
       defaultZone: http://localhost:10086/eureka
+    register-with-eureka: true # 如果true, 说明本服务会注册到eureka中
+  instance:
+    lease-renewal-interval-in-seconds: 5 # 每隔5s告诉eureka-server我还活着
+    lease-expiration-duration-in-seconds: 10 # 如果超过10s还没发送心跳, eureka-server就会认为我挂了

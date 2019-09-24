@@ -25,6 +25,14 @@ public class UserController
     @GetMapping("{id}")
     public User getUserById(@PathVariable("id") Long id)
     {
+        // service-provider 是服务的name
+        String url = "http://service-provider/users/" + id;
+        return restTemplate.getForObject(url, User.class);
+    }
+
+    @GetMapping("/sb/{id}")
+    public User getUserById1(@PathVariable("id") Long id)
+    {
         // 获取所有在eureka中注册的服务的id
         System.out.println(discoveryClient.getServices());
         // 根据id获取指定的服务, 因为指定的服务可能会有集群, 所以返回的是list

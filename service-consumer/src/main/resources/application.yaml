@@ -7,3 +7,7 @@ eureka:
   client:
     service-url:
       defaultZone: http://localhost:10086/eureka
+    # 服务消费者启动的时候, 如果这个参数为true, 会拉取eureka-server的服务列表
+    fetch-registry: true
+    # 每隔5s就重新拉取
+    registry-fetch-interval-seconds: 5
