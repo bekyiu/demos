@@ -1,0 +1,22 @@
+server:
+  port: 8081
+
+spring:
+  datasource:
+    druid:
+      driver-class-name: com.mysql.jdbc.Driver
+      url: jdbc:mysql://localhost:3306/ssm
+      username: root
+      password: Louise
+  application:
+    name: service-provider # 注册到eureka后的服务名称
+
+mybatis:
+  type-aliases-package: bekyiu.domain
+  mapper-locations: classpath:mappers/*Mapper.xml
+
+# Eureka Client注册到Eureka Server时，首先遇到第一个问题就是Eureka Client端要知道Server的地址
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:10086/eureka

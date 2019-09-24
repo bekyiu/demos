@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/hello.css}">
+</head>
+<body>
+    <div th:replace="~{header :: tou (${single}, 'z')}"></div>
+    <div th:object="${single}">
+    <!--日期处理-->
+        <span th:text="*{#calendars.format(bornDate, 'yyyy-MM-dd')}" class="date">xx</span>
+    </div>
+    <hr>
+    <table>
+        <tr th:each="user : ${users}" th:object="${user}">
+            <td th:text="*{id}"></td>
+            <td th:text="*{name}"></td>
+            <td th:text="*{headImg}"></td>
+        </tr>
+    </table>
+    <a th:href="@{https://baidu.com}">baidu</a>
+    <a th:href="@{/list}">list</a>
+    <!--对于静态资源的访问和在浏览器访问同样-->
+    <a th:href="@{/hello.html}">hello</a>
+    <a th:href="@{../hello.html}">hello</a>
+    <!--可以使用null-->
+    <span th:if="${1} != 1">sb</span>
+    <span th:text="${1} == 1 ? _ : 'false'">sb</span>
+    <span th:text="|hello??????????//\\.. ${single.name}!|">sb</span>
+    <!--<span th:text="${#lists.sort(users)}">sb</span>-->
+    <div th:replace="~{footer :: wei}"></div>
+</body>
+</html>
+
+<script th:src="@{/js/hello.js}"></script>
