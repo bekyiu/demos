@@ -11,3 +11,11 @@ eureka:
     fetch-registry: true
     # 每隔5s就重新拉取
     registry-fetch-interval-seconds: 5
+
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 3000 # 设置hystrix的超时时间为3000ms, 之后才调用降级方法
