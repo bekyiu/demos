@@ -15,20 +15,12 @@ public class UserFeignController
     @Autowired
     private UserClient userClient;
 
-    @GetMapping("/{id}")
+    @GetMapping("{id}")
     public User getUserById(@PathVariable("id") Long id)
     {
         if(id == 1)
         {
             throw new RuntimeException();
-        }
-        try
-        {
-            Thread.sleep(10000);
-        }
-        catch (InterruptedException e)
-        {
-            e.printStackTrace();
         }
         return userClient.getUserById(id);
     }

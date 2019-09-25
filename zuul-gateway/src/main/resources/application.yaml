@@ -3,10 +3,17 @@ server:
 spring:
   application:
     name: zuul
-
 # 路由规则
+#zuul:
+#  routes:
+#    service-provider: # 路由id, 作为map的key
+#      path: /service-provider/** # 浏览器地址栏的路径
+#      url: http://127.0.0.1:8082 # 被映射到的路径
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:10086/eureka
 zuul:
   routes:
-    service-provider: # 路由id, 作为map的key
-      path: /service-provider/** # 浏览器地址栏的路径
-      url: http://127.0.0.1:8082 # 被映射到的路径
+    service-provider: /service-provider/** # 服务名: 地址栏
+  prefix: /api

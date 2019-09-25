@@ -19,7 +19,7 @@ import java.util.List;
 @DefaultProperties(defaultFallback = "defaultFallBack")
 public class UserController
 {
-    @Autowired
+//    @Autowired
     private RestTemplate restTemplate;
 
     @Autowired

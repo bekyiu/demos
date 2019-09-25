@@ -23,10 +23,10 @@ public class AppConsumer
 
     // 集成了feign之后, 就不需要自己写RestTemplate了
     // feign已经自动集成了Ribbon负载均衡的RestTemplate
-    @Bean
-    @LoadBalanced //开启负载均衡
-    public RestTemplate restTemplate()
-    {
-        return new RestTemplate();
-    }
+//    @Bean
+//    @LoadBalanced //开启负载均衡
+//    public RestTemplate restTemplate()
+//    {
+//        return new RestTemplate();
+//    }
 }
