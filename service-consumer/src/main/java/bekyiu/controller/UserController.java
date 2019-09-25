@@ -30,13 +30,9 @@ public class UserController
     @HystrixCommand(fallbackMethod = "getUserByIdFallBack")
     public User getUserById(@PathVariable("id") Long id)
     {
-        try
+        if(id == 1L)
         {
-            Thread.sleep(6000);
-        }
-        catch (InterruptedException e)
-        {
-            e.printStackTrace();
+            throw new RuntimeException();
         }
         // service-provider 是服务的name
         String url = "http://service-provider/users/" + id;

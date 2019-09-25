@@ -11,6 +11,14 @@ eureka:
     fetch-registry: true
     # 每隔5s就重新拉取
     registry-fetch-interval-seconds: 5
+  instance:
+    lease-renewal-interval-in-seconds: 5 # 每隔5s告诉eureka-server我还活着
+    lease-expiration-duration-in-seconds: 10 # 如果超过10s还没发送心跳, eureka-server就会认为我挂了
+
+# feign 也继承了Hystrix, 只不过默认是关闭的
+feign:
+  hystrix:
+    enabled: true
 
 hystrix:
   command:
@@ -18,4 +26,4 @@ hystrix:
       execution:
         isolation:
           thread:
-            timeoutInMilliseconds: 3000 # 设置hystrix的超时时间为6000ms, 之后才调用降级方法
+            timeoutInMilliseconds: 3000 # 设置hystrix的超时时间为3000ms, 之后才调用降级方法
