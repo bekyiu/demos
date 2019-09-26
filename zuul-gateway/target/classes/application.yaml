@@ -17,3 +17,11 @@ zuul:
   routes:
     service-provider: /service-provider/** # 服务名: 地址栏
   prefix: /api
+
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 3000 # 设置hystrix的超时时间为3000ms

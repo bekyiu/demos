@@ -18,10 +18,6 @@ public class UserFeignController
     @GetMapping("{id}")
     public User getUserById(@PathVariable("id") Long id)
     {
-        if(id == 1)
-        {
-            throw new RuntimeException();
-        }
         return userClient.getUserById(id);
     }
 }

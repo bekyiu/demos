@@ -19,6 +19,15 @@ eureka:
 feign:
   hystrix:
     enabled: true
+  client:
+    config:
+      default:
+        connectTimeout: 2000 # feign 的超时设置
+        readTimeout: 2000
+
+service-provider:
+  ribbon:
+    MaxAutoRetriesNextServer: 0
 
 hystrix:
   command:
