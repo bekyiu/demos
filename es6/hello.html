@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+</body>
+<script>
+
+    const split = () => console.log("-------------------")
+
+    // 箭头函数
+    let p = {
+        name: "bek",
+        age: 16,
+        eat1: function(food) {
+            console.log(this.name + ", " + food)
+        },
+        eat2: food => console.log(this.name + ", " + food)
+    }
+    p.eat1("egg")
+    p.eat2("pizza") //拿不到this
+    split()
+
+    //解构表达式
+    let arr = ["z", "w", "sb"]
+    let [x, y, z] = arr
+    console.log(x, y, z)
+    split()
+
+    // 解构表达式搭配箭头函数
+    let fun = ({name, age, eat1}) => {
+        console.log(name, age)
+        eat1("x")
+    }
+    fun(p)
+
+    split()
+    // map reduce
+    let arr2 = [10, 20, 30, 40, 50]
+    // 将数组中的每一个元素都用给定的函数处理, 然后返回新的数组
+    console.log(arr2.map(num => num * 10))
+    // 数组求和
+    console.log(arr2.reduce((a, b) => a + b))
+    console.log(arr2.reduce((a, b) => a + b, 100))
+
+    split()
+    // 类似于map中的方法
+    console.log(Object.keys(p))
+    console.log(Object.values(p))
+    let aa = Object.entries(p)
+    console.log(aa)
+    console.log(aa[0][1])
+    // 把p的属性都copy到pp中
+    let pp = {}
+    Object.assign(pp, p)
+    console.log(pp)
+
+    split()
+    // 如果有数组中的元素, 返回true(基本类型)
+    console.log(arr2.includes(20))
+    console.log(arr2.includes(22))
+    let ps = [{name: "Louise", age: 16}, {name: "Yukino", age: 16}, {name: "bekyiu", age: 21, sex: 1}]
+    // 如果数组中有符合条件的元素, 返回第一个符合条件的元素
+    console.log(ps.find(p => p.age === 16))
+    console.log(ps.find(p => p.sex === 1))
+    // 如果数组中有符合条件的元素, 返回第一个符合条件的元素的索引
+    console.log(ps.findIndex(p => p.age === 16))
+</script>
+</html>
