@@ -10,8 +10,8 @@ import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
 
-@RunWith(SpringRunner.class)
-@SpringBootTest(classes = App.class)
+//@RunWith(SpringRunner.class)
+//@SpringBootTest(classes = App.class)
 public class RestTemplateTest
 {
     @Autowired
@@ -25,5 +25,18 @@ public class RestTemplateTest
         {
             System.out.println("user = " + user);
         }
+    }
+
+    @Test
+    public void fun()
+    {
+        String str = "@tap @tap.stop @tap.prevent @tap.once @click @click.stop @click.prevent @click.once @change @change.lazy @change.number @change.trim v-model v-for v-text v-html v-if v-else-if v-else v-pre v-once v-bind scoped";
+        String[] s = str.split(" ");
+        String res = "";
+        for (String s1 : s)
+        {
+            res += (s1 + ",");
+        }
+        System.out.println(res);
     }
 }

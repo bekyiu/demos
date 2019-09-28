@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <div id="div">
+        <button @click="show = !show">btn</button>
+        <span v-if="show">xxxx</span>
+        <hr>
+        <button @click="num = Math.random()">btn</button>
+        <span>{{num}}</span>
+        <!--else 上面必须是if或else if-->
+        <span v-if="num > 0.75">大于0.75</span>
+        <span v-else-if="num > 0.5">大于0.5</span>
+        <span v-else>大于0</span>
+        <ul>
+            <!--for优先于if-->
+            <li v-for="user in users" v-if="user.gender == '女'">{{user.name}}</li>
+        </ul>
+    </div>
+</body>
+<script src="node_modules/vue/dist/vue.js"></script>
+<script>
+    let app = new Vue({
+        el: "#div",
+        data: {
+            users:[
+                {name:'柳岩', gender:'女', age: 21},
+                {name:'峰哥', gender:'男', age: 18},
+                {name:'范冰冰', gender:'女', age: 24},
+                {name:'刘亦菲', gender:'女', age: 18},
+                {name:'古力娜扎', gender:'女', age: 25}
+            ],
+            show: true,
+            num: 0,
+        },
+    })
+</script>
+</html>
