@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+    <div id="app">
+        <!--不会解析html-->
+        <h1>nihao, {{name}}, {{age}}</h1>
+        <!--双向绑定-->
+        <input type="text" v-model="age">
+        <button v-on:click="age++">click</button>
+        <button v-on:click="add">click</button>
+        <!--提供默认值-->
+        <h1>nihao, <span v-html="name">xxx</span>, <span v-text="age">614</span></h1>
+
+        <!--https://cn.vuejs.org/v2/guide/forms.html-->
+        <textarea v-model="intro"></textarea>
+        {{intro}} <br>
+        <select v-model="intro">
+            <option>a</option>
+            <option>b</option>
+            <option>c</option>
+        </select>
+        <hr>
+        <input type="radio" v-model="sex" value="boy">男
+        <input type="radio" v-model="sex" value="girl">女
+        {{sex}}
+        <hr>
+        <input type="checkbox" v-model="arr" value="a">
+        <input type="checkbox" v-model="arr" value="b">
+        <input type="checkbox" v-model="arr" value="c">
+        <input type="checkbox" v-model="arr" value="d">
+        {{arr}}
+        <hr>
+        <!--@click是v-on:click的简写-->
+        <button @click="log">btn1</button>
+        <!--当键盘上的enter见弹起的时候触发-->
+        <input type="text" @keyup.enter="log">
+        <!--组合按键 alt + c-->
+        <input type="text" @keyup.alt.67="log">
+        <hr>
+        <!--循环-->
+        <ul>
+            <li v-for="(user, i) in users">{{i}}, {{user.name}}</li>
+        </ul>
+        <ul>
+            <li v-for="(user) in users">
+                <!--遍历对象-->
+                <span v-for="(value, key, index) in user">{{index}}, {{key}}:{{value}} || </span>
+            </li>
+        </ul>
+    </div>
+</body>
+<script src="node_modules/vue/dist/vue.js"></script>
+<script>
+    // 声明式渲染
+    let app = new Vue({
+        el: '#app',
+        data: {
+            name: '<span style="color: indianred">Louise</span>',
+            age: 16,
+            intro: '',
+            sex: '',
+            arr:[],
+            users:[
+                {name:'柳岩', gender:'女', age: 21},
+                {name:'峰哥', gender:'男', age: 18},
+                {name:'范冰冰', gender:'女', age: 24},
+                {name:'刘亦菲', gender:'女', age: 18},
+                {name:'古力娜扎', gender:'女', age: 25}
+            ]
+        },
+        methods: {
+            add() {
+                this.age++
+            },
+            log()
+            {
+                console.log(this.name)
+            }
+        },
+        created() {
+            this.age = 100
+        }
+    })
+
+    //
+</script>
+</html>
