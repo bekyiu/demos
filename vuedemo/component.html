@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <div id="div">
+        <counter></counter>
+        <counter></counter>
+    </div>
+
+    <div id="sb">
+        <counter></counter>
+    </div>
+</body>
+<script src="node_modules/vue/dist/vue.js"></script>
+<script>
+
+    // 全局组件
+    Vue.component("counter", {
+        template: "<button @click='num++'>+1, {{num}}</button>",
+        data()
+        {
+            return {
+                num: 0,
+            }
+        }
+    })
+
+    let app = new Vue({
+        el: "#div"
+    })
+    let sb = new Vue({
+        el: "#sb"
+    })
+</script>
+</html>

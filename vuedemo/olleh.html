@@ -3,6 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <style type="text/css">
+        .active {
+            border: 1px solid indianred;
+            height: 30px;
+            width: 30px;
+        }
+    </style>
 </head>
 <body>
     <div id="div">
@@ -19,6 +26,14 @@
             <!--for优先于if-->
             <li v-for="user in users" v-if="user.gender == '女'">{{user.name}}</li>
         </ul>
+        <hr>
+        <input v-bind:value="users[0].name">
+        <div v-bind:class="{active: show}"></div>
+        <hr>
+        <!--当做属性来使用而不是函数, 好处是可以缓存-->
+        <span>{{birth}}</span>
+        <hr>
+        <input type="text" v-model="message">
     </div>
 </body>
 <script src="node_modules/vue/dist/vue.js"></script>
@@ -35,7 +50,21 @@
             ],
             show: true,
             num: 0,
+            birthday: 1529032123201, // 毫秒值,
+            message: '',
         },
+        computed: { // 计算属性
+            birth() {
+                let d = new Date(this.birthday)
+                return d.getFullYear() + "-" + d.getMonth() + "-" + d.getDay();
+            }
+        },
+        watch: {
+            // 要监控谁函数名就是谁
+            message(newVal, oldVal){
+                console.log(newVal, oldVal);
+            }
+        }
     })
 </script>
 </html>
