@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <hr>
+    <div id="app">
+        <span><router-link to="/login">登陆</router-link></span>
+        <span><router-link to="/register">注册</router-link></span>
+        <!--会自动转换成驼峰-->
+        <!--<login-form></login-form>-->
+        <!--<register-form></register-form>-->
+        <router-view></router-view>
+    </div>
+</body>
+<script src="../node_modules/vue/dist/vue.js"></script>
+<script src="../node_modules/vue-router/dist/vue-router.js"></script>
+<script src="./js/loginForm.js"></script>
+<script src="./js/registerForm.js"></script>
+<script>
+    // 创建 VueRouter对象, 并且指定路有规则
+    const router = new VueRouter({
+        // 编写路由规则
+        routes: [
+            {
+                path: "/login", // 请求路径. 必须以"/"开头
+                component: loginForm
+            },
+            {
+                path: "/register",
+                component: registerForm
+            }
+        ]
+    })
+
+    let vm = new Vue({
+        el: "#app",
+
+        // components: {
+        //     // 简写, 要求标签的值和组件的名称相同
+        //     loginForm,
+        //     registerForm
+        // }
+
+        // 在父组件引用rooter对象
+        router
+    })
+</script>
+</html>

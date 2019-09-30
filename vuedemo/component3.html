@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <div id="div">
+        <!--从父组件传递数据模型到自组件用自定义属性-->
+        <!--从父组件传递方法到自组件用自定义事件-->
+        <counter v-bind:num1="num" @inc="incm" @dec="decm"></counter>
+        <counter></counter>
+    </div>
+
+    <div id="sb">
+        <counter></counter>
+    </div>
+</body>
+<script src="node_modules/vue/dist/vue.js"></script>
+<script>
+
+    // 全局组件
+    Vue.component("counter", {
+        // 这样修改后的值不会传递给父组件, 并且会有警告
+        // template: "<div>" +
+        //     "<button @click='num1++'>+1, {{num1}}</button>" +
+        //     "<button @click='num1--'>-1, {{num1}}</button>" +
+        //     "</div>",
+
+
+        // 使用父组件提供的方法, 修改父组件的值
+        template: "<div>" +
+            "<button @click='plus'>+1, {{num1}}</button>" +
+            "<button @click='reduce'>-1, {{num1}}</button>" +
+            "</div>",
+        props: ["num1"],
+        methods: {
+            plus()
+            {
+                this.$emit("inc")
+            },
+            reduce()
+            {
+                this.$emit("dec")
+            }
+        }
+    })
+
+    let app = new Vue({
+        el: "#div",
+        data: {
+            num: 0,
+        },
+        methods: {
+            incm()
+            {
+                this.num++;
+            },
+            decm()
+            {
+                this.num--;
+                console.log(this)
+            }
+        }
+    })
+    let sb = new Vue({
+        el: "#sb"
+    })
+</script>
+</html>
