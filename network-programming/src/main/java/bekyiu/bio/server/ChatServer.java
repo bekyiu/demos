@@ -77,7 +77,6 @@ public class ChatServer
         }
     }
 
-    // ctrl alt t
     public void start()
     {
         try
