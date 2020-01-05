@@ -1,13 +1,16 @@
 package bekyiu;
 
-import org.springframework.context.support.ClassPathXmlApplicationContext;
 
+import org.apache.dubbo.config.spring.context.annotation.EnableDubbo;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+@EnableDubbo
+@SpringBootApplication
 public class Provider
 {
-    public static void main(String[] args) throws Exception
+    public static void main(String[] args)
     {
-        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("provider.xml");
-        context.start();
-        System.in.read(); // 按任意键退出
+        SpringApplication.run(Provider.class);
     }
 }

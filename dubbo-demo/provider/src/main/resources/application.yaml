@@ -1,0 +1,16 @@
+server:
+  port: 9999
+# 对应于xml中的配置
+dubbo:
+  application:
+    name: provider
+  registry:
+    address: zookeeper://127.0.0.1:2181
+  protocol:
+    name: dubbo
+    port: 20880
+  provider:
+    timeout: 2000 # 提供方所有暴露的接口必须在2s内执行完
+    # 重试次数, 如果第一次调用失败, 再重试3次, 但不是所有的方法都能重试, 比如新增的方法
+    # 可以在@Service注解覆盖重试次数为0
+    retries: 3

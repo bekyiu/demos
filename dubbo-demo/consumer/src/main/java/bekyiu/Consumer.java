@@ -1,16 +1,15 @@
 package bekyiu;
 
-import bekyiu.service.IOrderService;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.apache.dubbo.config.spring.context.annotation.EnableDubbo;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+@EnableDubbo
+@SpringBootApplication
 public class Consumer
 {
-    public static void main(String[] args) throws Exception
+    public static void main(String[] args)
     {
-        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("consumer.xml");
-        context.start();
-        IOrderService orderService = (IOrderService) context.getBean("orderServiceImpl");
-        orderService.initOrder(1L);
-        System.in.read();
+        SpringApplication.run(Consumer.class);
     }
 }

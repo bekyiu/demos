@@ -1,0 +1,10 @@
+server:
+  port: 10000
+dubbo:
+  application:
+    name: consumer
+  registry:
+    address: zookeeper://127.0.0.1:2181
+    check: false
+  consumer: # 关闭启动时检查 (没有提供者时报错)
+    check: false

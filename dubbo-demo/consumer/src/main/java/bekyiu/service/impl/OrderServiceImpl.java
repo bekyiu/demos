@@ -3,7 +3,7 @@ package bekyiu.service.impl;
 import bekyiu.domain.UserAddress;
 import bekyiu.service.IOrderService;
 import bekyiu.service.IUserService;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.apache.dubbo.config.annotation.Reference;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -11,13 +11,17 @@ import java.util.List;
 @Service
 public class OrderServiceImpl implements IOrderService
 {
-    @Autowired
+    // 相当于 <dubbo:reference id="userService" interface="bekyiu.service.IUserService" />
+    @Reference(version = "2.0.0", // 确定使用哪个版本的服务, * 表示随机
+            stub = "bekyiu.service.impl.UserServiceStub") // 指定使用的本地存根
     private IUserService service;
     @Override
-    public void initOrder(Long userId)
+    public List<UserAddress> initOrder(Long userId)
     {
-        // 1. 查询用户的收货地址
+        System.out.println("OrderServiceImpl.initOrder1");
+        // 执行本地存根, 相当于执行UserServiceStub.getUserAddrList(userId)
         List<UserAddress> userAddrList = service.getUserAddrList(userId);
-        System.out.println(userAddrList);
+        System.out.println("OrderServiceImpl.initOrder2");
+        return userAddrList;
     }
 }

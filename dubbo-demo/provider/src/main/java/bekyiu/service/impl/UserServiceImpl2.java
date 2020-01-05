@@ -8,15 +8,14 @@ import org.springframework.stereotype.Component;
 import java.util.Arrays;
 import java.util.List;
 
-@Service(version = "1.0.0") // 注意这是dubbo的注解而不是spring的, 用于暴露服务的接口
-// 相当于 <dubbo:service interface="bekyiu.service.IUserService" ref="userService" />
+@Service(version = "2.0.0") // 灰度发布
 @Component
-public class UserServiceImpl implements IUserService
+public class UserServiceImpl2 implements IUserService
 {
     @Override
     public List<UserAddress> getUserAddrList(Long userId)
     {
-        System.out.println("old");
+        System.out.println("new");
         return Arrays.asList(
                 new UserAddress(1L, "四川成都", 614L, "110"),
                 new UserAddress(2L, "火星", 123L, "119"),
