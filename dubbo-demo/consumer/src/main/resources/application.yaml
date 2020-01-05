@@ -6,5 +6,7 @@ dubbo:
   registry:
     address: zookeeper://127.0.0.1:2181
     check: false
+  metadata-report:
+    address: zookeeper://127.0.0.1:2181
   consumer: # 关闭启动时检查 (没有提供者时报错)
     check: false
