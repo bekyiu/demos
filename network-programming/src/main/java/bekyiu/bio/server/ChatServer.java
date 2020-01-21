@@ -8,6 +8,10 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 public class ChatServer
 {
@@ -17,6 +21,9 @@ public class ChatServer
     // String是 ip:port, 代表一个客户端, 向这个客户端写东西时, 使用对应的writer
     private Map<String, Writer> connectClients = new HashMap<>();
     private ServerSocket serverSocket;
+    private ExecutorService executorService = new ThreadPoolExecutor(10,
+            10, 1, TimeUnit.MINUTES,
+            new ArrayBlockingQueue<>(3));
 
     public boolean readyToExit(String msg)
     {
@@ -87,7 +94,8 @@ public class ChatServer
             {
                 Socket socket = serverSocket.accept();
                 // 创建ChatHandler线程
-                new Thread(new ChatHandler(this, socket)).start();
+                // new Thread(new ChatHandler(this, socket)).start();
+                executorService.execute(new ChatHandler(this, socket));
             }
         }
         catch (IOException e)

@@ -5,7 +5,7 @@ import java.net.Socket;
 
 public class ChatClient
 {
-    private static final String SERVER_ADDRESS = "39.106.156.11";
+    private static final String SERVER_ADDRESS = "127.0.0.1";
     private static final Integer SERVER_PORT = 6140;
     private static final String $EXIT = "$exit";
 
