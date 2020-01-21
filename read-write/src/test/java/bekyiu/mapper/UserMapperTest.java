@@ -1,0 +1,32 @@
+package bekyiu.mapper;
+
+import bekyiu.domain.User;
+import bekyiu.service.UserService;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringRunner;
+
+@RunWith(SpringRunner.class)
+@SpringBootTest
+public class UserMapperTest
+{
+
+    @Autowired
+    private UserService userService;
+
+    @Test
+    public void save()
+    {
+        User user = new User();
+        user.setName("xxx");
+        user.setPassword("master");
+    }
+
+    @Test
+    public void list()
+    {
+        userService.list().forEach(System.out :: println);
+    }
+}
