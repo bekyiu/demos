@@ -39,13 +39,15 @@ public class Test
     @org.junit.Test
     public void create()
     {
+        // 创建索引库
         template.createIndex(Item.class);
+        // 创建映射
         template.putMapping(Item.class);
     }
     @org.junit.Test
     public void curd()
     {
-//        Item item = new Item(1L, "小米手机7", " 手机",
+//        Item item = new Item(1L, "小米手机8", " 手机",
 //                "小米", 3499.00, "http://image.leyou.com/13123.jpg");
 //        itemRepository.save(item);
         List<Item> list = new ArrayList<>();
@@ -53,6 +55,7 @@ public class Test
         list.add(new Item(3L, "华为META10", " 手机", "华为", 4499.00, "http://image.leyou.com/3.jpg"));
         // 接收对象集合，实现批量新增
         itemRepository.saveAll(list);
+        // 更新也是save, id相同就是更新
     }
 
     // 基本查询

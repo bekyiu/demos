@@ -16,7 +16,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/consumer/users")
-@DefaultProperties(defaultFallback = "defaultFallBack")
+//@DefaultProperties(defaultFallback = "defaultFallBack")
 public class UserController
 {
 //    @Autowired
@@ -35,7 +35,8 @@ public class UserController
             throw new RuntimeException();
         }
         // service-provider 是服务的name
-        String url = "http://service-provider/users/" + id;
+//        String url = "http://service-provider/users/" + id;
+        String url = "http://localhost:8081/users/" + id;
         return restTemplate.getForObject(url, User.class);
     }
     // 降级方法, 必须与正常的方法返回值和参数列表相同

@@ -25,7 +25,7 @@ public class UserController
         // 超过feign的超时时间但是没有超过hystrix的超时时间, 还是会进入降级方法
         try
         {
-            Thread.sleep(2500);
+            Thread.sleep(500);
         }
         catch (InterruptedException e)
         {
