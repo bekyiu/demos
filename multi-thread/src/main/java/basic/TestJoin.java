@@ -21,6 +21,7 @@ public class TestJoin implements Runnable
         Thread t = new Thread(new TestJoin());
         t.start();
         System.out.println("开始join");
+        // https://www.jianshu.com/p/7875d811d1de, join的分析
         t.join();
         System.out.println("子线程运行完毕");
     }
