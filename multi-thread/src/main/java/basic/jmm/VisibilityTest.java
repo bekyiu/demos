@@ -25,6 +25,7 @@ package basic.jmm;
  *      1. 单线程内的操作 即前一条语句执行的结果 一定能被后面的语句看到
  *      2. synchronized和lock, 线程a解锁m后, 线程b再加锁m, 此时b一定能看到a解锁前的所有操作
  *      3. volatile, 线程a写一个volatile变量后, 线程b一定能读到 (即不会出现本例中的情况)
+ *      并且写volatile变量之前的操作, 也都可以被线程b看到 (即本例只用给b加volatile即可)
  *      4. etc...
  */
 public class VisibilityTest
