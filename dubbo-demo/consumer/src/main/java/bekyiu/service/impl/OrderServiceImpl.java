@@ -16,6 +16,9 @@ public class OrderServiceImpl implements IOrderService
             stub = "bekyiu.service.impl.UserServiceStub", // 指定使用的本地存根
             mock = "true") // 服务降级 true表示使用自定义的降级方法, 也可以直接 return null
     private IUserService service;
+
+//    @Reference(version = "1.0.0")
+//    private IUserService service;
     @Override
     public List<UserAddress> initOrder(Long userId)
     {
