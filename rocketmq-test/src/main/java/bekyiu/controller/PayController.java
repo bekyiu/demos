@@ -25,9 +25,9 @@ public class PayController
     private PayProducer payProducer;
 
     @GetMapping("/syn")
-    public String synSend(String msg) throws InterruptedException, RemotingException, MQClientException, MQBrokerException
+    public String synSend(String tag) throws InterruptedException, RemotingException, MQClientException, MQBrokerException
     {
-        Message m = new Message(JmsConfig.TOPIC, "a", "nanase", msg.getBytes());
+        Message m = new Message(JmsConfig.TOPIC, tag, "z", tag.getBytes());
         SendResult result = payProducer.getProducer().send(m);
         System.out.println(result);
         return "ok";

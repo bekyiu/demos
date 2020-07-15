@@ -33,8 +33,9 @@ public class PayConsumer
             consumer.setNamesrvAddr(JmsConfig.NAME_SERVER);
             // 先进先出
             consumer.setConsumeFromWhere(ConsumeFromWhere.CONSUME_FROM_LAST_OFFSET);
-            // 订阅哪个主题的哪个标签
-            consumer.subscribe(JmsConfig.TOPIC, "*");
+            // 订阅哪个主题的哪个标签, 多个标签可以用 || 连接
+            // 同一个consumerGroup订阅不同的tag会收不到消息
+            consumer.subscribe(JmsConfig.TOPIC, "a");
             // 设置监听器
             consumer.registerMessageListener(new MessageListenerConcurrently()
             {
