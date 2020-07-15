@@ -41,15 +41,23 @@ public class PayConsumer
                 @Override
                 public ConsumeConcurrentlyStatus consumeMessage(List<MessageExt> list, ConsumeConcurrentlyContext ctx)
                 {
+                    // 一般是一条一条的消费
+                    MessageExt msg = list.get(0);
+                    int times = msg.getReconsumeTimes();
+                    System.out.println("重试次数: " + times);
                     try
                     {
-                        // 一般是一条一条的消费
-                        MessageExt msg = list.get(0);
+
                         String body = new String(msg.getBody());
                         String topic = msg.getTopic();
                         String tags = msg.getTags();
                         String msgId = msg.getMsgId();
                         int queueId = msg.getQueueId();
+                        String keys = msg.getKeys();
+                        if(keys.equals("nanase") && times <= 1)
+                        {
+                            throw new RuntimeException();
+                        }
                         System.out.println(String.format("body: %s, topic: %s, tags: %s, msgId: %s, queueId: %d", body, topic,
                                 tags, msgId, queueId));
                         // 返回成功，broker会把消息消费掉
@@ -58,6 +66,12 @@ public class PayConsumer
                     catch (Exception e)
                     {
                         e.printStackTrace();
+                        System.out.println("出现异常");
+                        if(times >= 2)
+                        {
+                            System.out.println("通知...");
+                            return ConsumeConcurrentlyStatus.CONSUME_SUCCESS;
+                        }
                         // 表示稍后再消费
                         return ConsumeConcurrentlyStatus.RECONSUME_LATER;
                     }
