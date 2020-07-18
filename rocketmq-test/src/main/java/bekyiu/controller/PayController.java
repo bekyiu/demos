@@ -3,11 +3,10 @@ package bekyiu.controller;
 import bekyiu.domain.Order;
 import bekyiu.jms.JmsConfig;
 import bekyiu.jms.PayProducer;
+import bekyiu.transaction.TransProducer;
 import org.apache.rocketmq.client.exception.MQBrokerException;
 import org.apache.rocketmq.client.exception.MQClientException;
-import org.apache.rocketmq.client.producer.MessageQueueSelector;
-import org.apache.rocketmq.client.producer.SendCallback;
-import org.apache.rocketmq.client.producer.SendResult;
+import org.apache.rocketmq.client.producer.*;
 import org.apache.rocketmq.common.message.Message;
 import org.apache.rocketmq.common.message.MessageQueue;
 import org.apache.rocketmq.remoting.exception.RemotingException;
@@ -23,6 +22,8 @@ public class PayController
 
     @Autowired
     private PayProducer payProducer;
+    @Autowired
+    private TransProducer transProducer;
 
     @GetMapping("/syn")
     public String synSend(String tag) throws InterruptedException, RemotingException, MQClientException, MQBrokerException
@@ -103,6 +104,16 @@ public class PayController
             }, o.getId());
             System.out.println(result + " " + o);
         }
+        return "ok";
+    }
+
+    @GetMapping("/trans")
+    public String trans(String msg) throws MQClientException
+    {
+        TransactionMQProducer p = transProducer.getProducer();
+        Message m = new Message(JmsConfig.TOPIC, "t", "nana", msg.getBytes());
+        TransactionSendResult result = p.sendMessageInTransaction(m, 3);
+        System.out.println(result);
         return "ok";
     }
 }
