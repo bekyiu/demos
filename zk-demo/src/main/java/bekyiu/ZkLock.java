@@ -6,17 +6,16 @@ import org.apache.zookeeper.data.Stat;
 import java.io.IOException;
 import java.util.Comparator;
 import java.util.List;
-import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
-import java.util.concurrent.locks.Condition;
-import java.util.concurrent.locks.Lock;
 import java.util.stream.Collectors;
 
 /**
  * @Author: wangyc
  * @Date: 2020/7/18 20:11
+ *
+ * 使用时多个线程不能混用同一把zkLock，每个线程必须new自己的锁
  */
-public class ZkLock implements Lock, Watcher
+public class ZkLock implements Watcher
 {
     private ZooKeeper zk;
 
@@ -26,7 +25,6 @@ public class ZkLock implements Lock, Watcher
 
     private String pre; // 前一个节点
 
-    private CountDownLatch countDownLatch;
 
     public ZkLock()
     {
@@ -47,10 +45,9 @@ public class ZkLock implements Lock, Watcher
         }
     }
 
-    @Override
-    public void lock()
+    public void lock(String biz)
     {
-        if (tryLock())
+        if (tryLock(biz))
         {
             System.out.println(Thread.currentThread().getName() + " 获取锁成功");
             return;
@@ -58,6 +55,7 @@ public class ZkLock implements Lock, Watcher
         try
         {
             waitForLock();
+            System.out.println(Thread.currentThread().getName() + " 获取锁成功");
         }
         catch (KeeperException | InterruptedException e)
         {
@@ -72,34 +70,37 @@ public class ZkLock implements Lock, Watcher
         if (stat != null)
         {
             System.out.println(Thread.currentThread().getName() + "正在等待");
-            countDownLatch = new CountDownLatch(1);
-            // 阻塞，pre被删除后唤醒
-            countDownLatch.await();
+            // 仅仅是为了阻塞
+            synchronized (this)
+            {
+                wait();
+            }
         }
     }
 
-    @Override
-    public void lockInterruptibly() throws InterruptedException
-    {
 
-    }
-
-    @Override
-    public boolean tryLock()
+    public boolean tryLock(String biz)
     {
-        // 创建临时有序的节点
         try
         {
-            current = zk.create(ROOT + "/", "0".getBytes(), ZooDefs.Ids.OPEN_ACL_UNSAFE, CreateMode.EPHEMERAL_SEQUENTIAL);
+            // 创建分类节点，不同的业务可能使用不同的锁 /lock/order
+            String bizPath = ROOT + "/" + biz;
+            Stat stat = zk.exists(bizPath, false);
+            if (stat == null)
+            {
+                zk.create(bizPath, "0".getBytes(), ZooDefs.Ids.OPEN_ACL_UNSAFE, CreateMode.PERSISTENT);
+            }
+            // 创建临时节点 /lock/order/order_00001
+            current = zk.create(bizPath + "/" + biz + "_", "0".getBytes(), ZooDefs.Ids.OPEN_ACL_UNSAFE, CreateMode.EPHEMERAL_SEQUENTIAL);
             System.out.println(Thread.currentThread().getName() + "获取到的节点为" + current);
-            List<String> list = zk.getChildren(ROOT, false);
+            List<String> list = zk.getChildren(bizPath, false);
             // 对节点排序
-            list = list.stream().map(e -> ROOT + "/" + e).sorted(Comparator.naturalOrder()).collect(Collectors.toList());
+            list = list.stream().map(e -> bizPath + "/" + e).sorted(Comparator.naturalOrder()).collect(Collectors.toList());
             // 当前节点的序号
             int i = list.indexOf(current);
             if (i == 0)
             {
-                return true; // 拿到锁了
+                return true;
             }
             else
             {
@@ -116,13 +117,7 @@ public class ZkLock implements Lock, Watcher
         return false;
     }
 
-    @Override
-    public boolean tryLock(long time, TimeUnit unit) throws InterruptedException
-    {
-        return false;
-    }
 
-    @Override
     public void unlock()
     {
         try
@@ -130,6 +125,7 @@ public class ZkLock implements Lock, Watcher
             System.out.println(Thread.currentThread().getName() + "释放锁" + current);
             zk.delete(current, -1);
             current = null;
+            pre = null;
             zk.close();
         }
         catch (InterruptedException | KeeperException e)
@@ -139,51 +135,48 @@ public class ZkLock implements Lock, Watcher
     }
 
     @Override
-    public Condition newCondition()
-    {
-        return null;
-    }
-
-    @Override
     public void process(WatchedEvent event)
     {
-        if(countDownLatch != null)
+        if (event.getType() == Event.EventType.NodeDeleted && event.getPath().startsWith(ROOT))
         {
-            countDownLatch.countDown();
+            synchronized (this)
+            {
+                notify();
+            }
         }
-//        if(event.getType() == Event.EventType.NodeChildrenChanged)
-//        {
-//            if(countDownLatch != null)
-//            {
-//                countDownLatch.countDown();
-//            }
-//        }
     }
 
     public static void main(String[] args)
     {
-        for(int i = 0; i < 100; i++)
+
+        new Thread(() ->
         {
-            new Thread(new Task(new ZkLock()),"线程" + i).start();
+            ZkLock lock = new ZkLock();
+            lock.lock("order");
+            lock.unlock();
+        }).start();
+
+        new Thread(() ->
+        {
+            ZkLock lock = new ZkLock();
+            lock.lock("order");
+            lock.unlock();
+        }).start();
+
+        new Thread(() ->
+        {
+            ZkLock lock = new ZkLock();
+            lock.lock("order");
+            lock.unlock();
+        }).start();
+
+        try
+        {
+            TimeUnit.SECONDS.sleep(Integer.MAX_VALUE);
         }
-    }
-}
-
-class Task implements Runnable
-{
-    public static int a = 0;
-    private ZkLock lock;
-    public Task(ZkLock lock)
-    {
-        this.lock = lock;
-    }
-
-    @Override
-    public void run()
-    {
-//        lock.lock();
-        a++;
-        System.out.println(a);
-//        lock.unlock();
+        catch (InterruptedException e)
+        {
+            e.printStackTrace();
+        }
     }
 }
