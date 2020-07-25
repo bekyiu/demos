@@ -1,0 +1,11 @@
+server:
+  port: 80
+
+spring:
+  datasource:
+    username: root
+    password: Louise
+    url: jdbc:mysql://localhost:3306/new_db
+    driver-class-name: com.mysql.jdbc.Driver
+mapper:
+  enum-as-simple-type: true
