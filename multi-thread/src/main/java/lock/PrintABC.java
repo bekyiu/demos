@@ -46,17 +46,57 @@ public class PrintABC
 
     public static void main(String[] args)
     {
-        PrintABC print = new PrintABC(1, 5);
-        new Thread(() -> {
-            print.print("a", 1, 2);
-        }).start();
+//        PrintABC print = new PrintABC(1, 5);
+//        new Thread(() -> {
+//            print.print("a", 1, 2);
+//        }).start();
+//
+//        new Thread(() -> {
+//            print.print("b", 2, 3);
+//        }).start();
+//
+//        new Thread(() -> {
+//            print.print("c", 3, 1);
+//        }).start();
+        strCompare();
+    }
 
-        new Thread(() -> {
-            print.print("b", 2, 3);
-        }).start();
+    public static void intCompare()
+    {
+        Integer a = new Integer(614);
+        Integer b = new Integer(614);
+        Integer c = new Integer(2);
+        Integer d = 2;
+        // false
+        System.out.println(a == b);
+        // false
+        System.out.println(c == d);
 
-        new Thread(() -> {
-            print.print("c", 3, 1);
-        }).start();
+        // 调用valueOf方法自动装箱
+        Integer e = 777;
+        Integer f = 777;
+        // false
+        System.out.println(e == f);
+
+        // 缓存范围[-128, 127]
+        System.out.println(Integer.valueOf(-128) == Integer.valueOf(-128));
+        System.out.println(Integer.valueOf(-129) == Integer.valueOf(-129));
+    }
+
+    public static void strCompare()
+    {
+        String a = new String("aaa");
+        String b = new String("aaa");
+        // false
+        System.out.println(a == b);
+
+        String c = "cde";
+        String d = "fg";
+        String haha = "cde" + "fg";
+        String f = c + d;
+        String e = "cdefg";
+        System.out.println(f == e);
+        System.out.println(haha == e);
+        System.out.println(haha == f);
     }
 }
