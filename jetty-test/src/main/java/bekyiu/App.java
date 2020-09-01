@@ -15,9 +15,9 @@ public class App
     public static void main(String[] args)
     {
         ConfigurableApplicationContext ctx = SpringApplication.run(App.class, args);
-        User bean = ctx.getBean(User.class);
-        System.out.println("获取bean对象");
-        System.out.println(bean);
-        ctx.close();
+//        User bean = ctx.getBean(User.class);
+//        System.out.println("获取bean对象");
+//        System.out.println(bean);
+//        ctx.close();
     }
 }

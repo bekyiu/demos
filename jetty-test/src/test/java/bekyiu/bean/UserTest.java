@@ -21,9 +21,6 @@ public class UserTest
     @Test
     public void test()
     {
-        User bean = ctx.getBean(User.class);
-        System.out.println("获取bean对象");
-        System.out.println(bean);
-        ctx.close();
+        System.out.println(1 / 0);
     }
 }

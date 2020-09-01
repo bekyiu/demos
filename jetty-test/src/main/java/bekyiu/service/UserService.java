@@ -14,6 +14,8 @@ public class UserService
     public String user()
     {
 //        int a = 1 / 0;
+        int[] a = {1};
+        a[1] = 7;
         return "{\"age\":\"26\"}";
     }
 }

@@ -39,8 +39,9 @@ public class TransactionAspect
         }
         catch (Exception e)
         {
-            e.printStackTrace();
             log.info("回滚");
+            // 交给统一异常处理
+            throw e;
         }
         finally
         {
