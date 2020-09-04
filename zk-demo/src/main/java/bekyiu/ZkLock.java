@@ -13,7 +13,8 @@ import java.util.stream.Collectors;
  * @Author: wangyc
  * @Date: 2020/7/18 20:11
  *
- * 使用时多个线程不能混用同一把zkLock，每个线程必须new自己的锁
+ * 使用时多个线程不能混用同一把zkLock，
+ * 每个线程必须new自己的锁, 因为改锁是有状态的
  */
 public class ZkLock implements Watcher
 {
