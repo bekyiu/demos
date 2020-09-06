@@ -14,7 +14,7 @@ import org.springframework.stereotype.Component;
 @Slf4j
 // 优先于事务的切面
 @Order(5)
-public class ServiceLogAspect
+public class LogAspect
 {
 
     // service包及其子包下的所有类的所有方法
@@ -28,13 +28,15 @@ public class ServiceLogAspect
         Object res = joinPoint.proceed();
         long end = System.currentTimeMillis();
         long gap = end - start;
-        if(gap > 3000)
+        if(gap > 5000)
         {
-            log.warn("===== 执行结束 执行时间过长: {}毫秒 =====", gap);
+            log.warn("===== 执行结束:{}.{} 执行时间过长: {}毫秒 =====",
+                    joinPoint.getTarget().getClass(), joinPoint.getSignature().getName(), gap);
         }
         else
         {
-            log.info("===== 执行结束 执行时间: {}毫秒 =====", gap);
+            log.info("===== 执行结束: {}.{} 执行时间: {}毫秒 =====",
+                    joinPoint.getTarget().getClass(), joinPoint.getSignature().getName(), gap);
         }
         return res;
     }

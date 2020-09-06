@@ -29,32 +29,14 @@ import java.util.List;
  * NodeChildrenChanged：子节点的数据变更
  * NodeDeleted：子节点删除
  * <p>
- * ZooKeeper CreateMode节点类型说明：
- * 1.PERSISTENT：持久型
- * 2.PERSISTENT_SEQUENTIAL：持久顺序型
- * 3.EPHEMERAL：临时型
- * 4.EPHEMERAL_SEQUENTIAL：临时顺序型
- * <p>
- * 1、2种类型客户端断开后不会消失
- * 3、4种类型客户端断开后超时时间内没有新的连接节点将会消失
- * <p>
- * ZooKeeper ZooDefs.Ids权限类型说明：
- * OPEN_ACL_UNSAFE：完全开放的ACL，任何连接的客户端都可以操作该属性znode
- * CREATOR_ALL_ACL：只有创建者才有ACL权限
- * READ_ACL_UNSAFE：只能读取ACL
- * <p>
- * ZooKeeper EventType事件类型说明：
- * NodeCreated：节点创建
- * NodeDataChanged：节点的数据变更
- * NodeChildrenChanged：子节点的数据变更
- * NodeDeleted：子节点删除
- * <p>
  * ZooKeeper KeeperState状态类型说明：
  * Disconnected：连接失败
  * SyncConnected：连接成功
  * AuthFailed：认证失败
  * Expired：会话过期
  * None：初始状态
+ *
+ * https://www.cnblogs.com/sun-flower1314/p/11385442.html
  */
 public class Test implements Watcher
 {
