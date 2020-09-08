@@ -5,3 +5,20 @@ spring:
     nacos:
       discovery:
         server-addr: 127.0.0.1:8848
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/jdbcdemo
+    username: root
+    password: Louise
+
+# 查看sql
+logging:
+  level:
+    bekyiu:
+      mapper: debug
+
+# 使用数据库自增主键
+mybatis-plus:
+  global-config:
+    db-config:
+      id-type: auto
