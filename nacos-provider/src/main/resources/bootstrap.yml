@@ -1,0 +1,12 @@
+# 去nacos的配置中心加载配置
+# bootstrap.yml会先被application.yml加载
+spring:
+  application:
+    name: nacos-provider
+  cloud:
+    nacos:
+      config:
+        server-addr: 127.0.0.1:8848
+        file-extension: yml # 一定要要, 不然匹配不到
+        namespace: 356893ef-4f55-49b9-868a-f42c7efdfb26 # 以微服务为维度划分命名空间
+        group: dev # 以环境为维度划分组
