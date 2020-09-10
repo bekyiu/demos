@@ -1,8 +1,8 @@
 package bekyiu.mapper;
 
 import bekyiu.domain.Student;
+import bekyiu.service.StudentService;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.core.enums.SqlLike;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -20,6 +20,8 @@ public class StudentMapperTest
 {
     @Autowired
     private StudentMapper mapper;
+    @Autowired
+    private StudentService service;
 
     @Test
     public void selectById()
@@ -33,7 +35,7 @@ public class StudentMapperTest
         QueryWrapper<Student> wrapper = new QueryWrapper<>();
         // mp的like会自己动%, 定制的话要用apply
         wrapper.ge("age", 18).apply("name like {0}", "n%e");
-        mapper.selectList(wrapper).forEach(System.out :: println);
+        mapper.selectList(wrapper).forEach(System.out::println);
     }
 
     @Test
@@ -41,13 +43,12 @@ public class StudentMapperTest
     {
         // 分页查询需要配置插件PaginationInterceptor才能生效
         Page<Student> pages = mapper.selectPage(new Page<>(1, 2), null);
-        pages.getRecords().forEach(System.out :: println);
+        pages.getRecords().forEach(System.out::println);
     }
 
     @Test
     public void insert()
     {
-        mapper.insert(Student.builder().name("nishino").age(26).build());
+        mapper.insert(Student.builder().name("test1").age(26).build());
     }
-
 }

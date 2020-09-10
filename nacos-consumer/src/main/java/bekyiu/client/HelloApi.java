@@ -12,4 +12,7 @@ public interface HelloApi
 {
     @GetMapping("/hello")
     String hello();
+
+    @GetMapping("/saveStu")
+    String save();
 }

@@ -1,5 +1,7 @@
 package bekyiu.controller;
 
+import bekyiu.service.StudentService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,10 +19,19 @@ public class HelloController
     @Value("${name}")
     private String name;
 
+    @Autowired
+    private StudentService service;
+
     @GetMapping("/hello")
     public String hello()
     {
-        System.out.println("provider...");
         return name;
+    }
+
+    @GetMapping("/saveStu")
+    public String save()
+    {
+        service.save();
+        return "ok";
     }
 }

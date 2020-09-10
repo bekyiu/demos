@@ -5,5 +5,26 @@ spring:
     nacos:
       discovery:
         server-addr: 127.0.0.1:8848
+    alibaba:
+      seata:
+        tx-service-group: nacos-consumer
   application:
     name: nacos-consumer
+
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/mybatisdemo
+    username: root
+    password: Louise
+
+# 查看sql
+logging:
+  level:
+    bekyiu:
+      mapper: debug
+
+# 使用数据库自增主键
+mybatis-plus:
+  global-config:
+    db-config:
+      id-type: auto
