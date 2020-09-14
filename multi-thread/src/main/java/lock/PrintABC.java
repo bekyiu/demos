@@ -93,10 +93,13 @@ public class PrintABC
         String c = "cde";
         String d = "fg";
         String haha = "cde" + "fg";
-        String f = c + d;
+        String f = c + d; // 理解为返回一个新的对象
         String e = "cdefg";
+        // false
         System.out.println(f == e);
+        // true
         System.out.println(haha == e);
+        // false
         System.out.println(haha == f);
     }
 }
