@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+        a {
+            text-decoration: none;
+            color: #333333;
+        }
+        body {
+            background-color: #f5f5f5;
+        }
+        .box {
+            width: 300px;
+            height: 480px;
+            background-color: #ffffff;
+            margin: 100px auto;
+        }
+        .box img {
+            /*和父一样宽*/
+            width: 100%;
+        }
+        .review {
+            font-size: 14px;
+            height: 70px;
+            /*因为这个盒子没有width, 所以padding不会撑开盒子的宽度*/
+            padding: 0 30px;
+            /*盒子之间的距离用margin来隔离*/
+            margin-top: 25px;
+        }
+
+        .comment {
+            font-size: 12px;
+            color: #b0b0b0;
+            padding: 0 30px;
+        }
+
+        .info h4 {
+            display: inline-block;
+            font-weight: 400;
+        }
+        .info {
+            font-size: 14px;
+            margin-top: 15px;
+            padding: 0 30px;
+        }
+        .info span {
+            color: #ff8500;
+        }
+        .info em {
+            font-style: normal;
+            color: #ebe4e0;
+            margin: 0 6px 0 15px;
+        }
+    </style>
+</head>
+<body>
+    <div class="box">
+        <img src="../img/nana1.jpg" alt="">
+        <p class="review">花王，日本知名日用品品牌。花王产品涉及化妆品等600多种，大都是高分子化学品。</p>
+        <div class="comment">
+            来自于1235456的评价
+        </div>
+        <div class="info">
+            <h4><a href="#">美少女洗发水, 嘤嘤嘤</a></h4>
+            <em>|</em>
+            <span>99.9元</span>
+        </div>
+    </div>
+</body>
+</html>
