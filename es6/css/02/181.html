@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+        li {
+            list-style: none;
+        }
+
+        .top {
+            /*通栏 不指定宽度*/
+            height: 70px;
+            background-color: gray;
+        }
+
+        .banner {
+            height: 250px;
+            width: 1300px;
+            background-color: gray;
+            margin: 20px auto;
+        }
+
+        .box {
+            height: 400px;
+            width: 1300px;
+            background-color: pink;
+            margin: 0 auto;
+        }
+
+        .box ul li {
+            height: 400px;
+            width: 317.5px;
+            background-color: gray;
+            float: left;
+            margin-right: 10px;
+        }
+
+        .box .last {
+            margin-right: 0;
+        }
+
+        .footer {
+            height: 200px;
+            background-color: gray;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="top">top</div>
+    <div class="banner">banner</div>
+    <div class="box">
+        <ul>
+            <li>1</li>
+            <li>2</li>
+            <li>3</li>
+            <li class="last">4</li>
+        </ul>
+    </div>
+    <div class="footer">footer</div>
+</body>
+</html>
