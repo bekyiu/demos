@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+</body>
+</html>
+<script>
+    if (2 > 1) {
+        var a = 10
+        let b = 10
+    }
+    // 正确访问, es5中只有全局和函数作用域, 没有块级作用域
+    console.log(a)
+    // b访问不到
+    // console.log(b)
+
+    console.log('------------变量提升-----------')
+    // 变量的声明和函数声明会提升到自己作用域的最前面, 不提升赋值
+    var num = 7
+    fun() // undefined
+    function fun() {
+        console.log(num)
+        var num = 614
+    }
+</script>
