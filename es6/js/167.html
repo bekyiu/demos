@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+</body>
+</html>
+<script>
+    let _main = function () {
+        let future = new Date(2020, 9 - 1, 20)
+        let now = Date.now()
+        let gapSeconds = Math.round((future.getTime() - now) / 1000)
+
+        let hours = parseInt(gapSeconds / 60 / 60)
+        let min = parseInt(gapSeconds / 60 % 60)
+        let seconds = parseInt(gapSeconds % 60)
+        console.log(hours, min, seconds)
+        let z = 'aa'
+        z.big()
+        console.log(z)
+    }
+
+
+    _main()
+</script>
