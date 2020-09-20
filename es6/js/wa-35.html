@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        .choose {
+            background-color: pink;
+        }
+    </style>
+</head>
+<body>
+    <table id="map" border="1" cellspacing="0" cellpadding="10">
+        <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+
+    </table>
+
+    <br>
+    <button id="save">编辑完成</button>
+</body>
+</html>
+<script>
+
+    // 操作map
+    let map = []
+    let save = function (row, col) {
+        map.push([row, col])
+    }
+    let del = function (row, col) {
+        let delIndex = -1
+        for (let i = 0; i < map.length; i++) {
+            if(map[i][0] === row && map[i][1] === col) {
+                delIndex = i
+                break
+            }
+        }
+        map.splice(delIndex, 1)
+    }
+
+    let tdClick = function() {
+        let row = this.getAttribute('row')
+        let col = this.getAttribute('col')
+        // console.log(row + ', ' + col)
+        if (this.classList.contains('choose')) {
+            this.classList.remove('choose')
+            del(row, col)
+        } else {
+            this.classList.add('choose')
+            save(row, col)
+        }
+        // console.log(map)
+    }
+
+    let saveClick = function () {
+        // 持久化map
+        console.log(JSON.stringify(map))
+    }
+
+    let _main = function () {
+        let trs = document.querySelectorAll('#map tr')
+        let rowNum = trs.length
+        let colNum = trs[0].querySelectorAll('td').length
+
+        let tds = document.querySelectorAll('#map td')
+        for (let i = 0; i < tds.length; i++) {
+            // 设置每个td在哪一行哪一列
+            let rowIndex = Math.floor(i / colNum) + 1
+            let colIndex = i % colNum + 1
+            tds[i].setAttribute('row', rowIndex)
+            tds[i].setAttribute('col', colIndex)
+            tds[i].addEventListener('click', tdClick)
+        }
+
+        document.querySelector('#save').addEventListener('click', saveClick)
+    }
+    _main()
+</script>

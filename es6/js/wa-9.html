@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        .a {
+            background-color: pink;
+            outline-style: none;
+        }
+    </style>
+</head>
+<body>
+    <ul>
+        <li>nanase</li>
+        <li>nanase</li>
+        <li>nanase</li>
+        <li>nanase</li>
+    </ul>
+    <button id="btn">click</button>
+    <div class="hobby">
+        <input type="checkbox" name="a" checked="checked">
+        <input type="checkbox" name="a" index="7">
+        <input type="checkbox" name="a">
+    </div>
+</body>
+</html>
+
+<script>
+    console.log(document.body)
+    console.dir(document.body)
+
+    let lis = document.querySelectorAll('ul li')
+    // 伪数组
+    console.log(lis)
+
+    let btn = document.querySelector('#btn')
+    btn.onclick = function () {
+        // 修改/增加的是行内样式, 权重较高
+        this.style.width = '300px'
+        // 修改原来得class
+        this.className = 'a'
+        // 增加写好的class来修改样式
+        // this.classList.add('a')
+    }
+
+    let hobbies = document.querySelectorAll('.hobby input')
+    for (const h of hobbies) {
+        // 获取存在的属性
+        console.log(h.checked)
+        // 获取自定义属性
+        let index = h.getAttribute('index')
+        console.log(index)
+        if(index !== null)
+        {
+            // 修改自定属性
+            h.setAttribute('index', 614)
+        }
+    }
+</script>

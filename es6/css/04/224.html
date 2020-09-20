@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        .a {
+            position: relative;
+            top: 100px;
+            left: 100px;
+            width: 200px;
+            height: 200px;
+            background-color: pink;
+        }
+
+        .b {
+            width: 200px;
+            height: 200px;
+            background-color: skyblue;
+        }
+
+        .c {
+            position: relative;
+            /*top: 50px;*/
+            /*left: 50px;*/
+            width: 200px;
+            height: 200px;
+            background-color: pink;
+        }
+
+        .d {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            width: 200px;
+            height: 200px;
+            background-color: skyblue;
+        }
+
+        .e {
+            position: fixed;
+            top: 100px;
+            right: 50px;
+            width: 200px;
+            height: 200px;
+            background-color: skyblue;
+        }
+    </style>
+</head>
+<body>
+<!--
+    静态定位:
+        position: static
+        默认就是这种方式, 表示没有定位
+
+    相对定位:
+        相对于自己原来的位置移动
+        不脱标, 不会影响其他盒子的位置
+
+    绝对定位:
+        相对于它的 祖先 元素来位移
+        如果没有祖先元素, 或者祖先元素没有定位, 则以浏览器为准
+        如果祖先元素有定位, 则以最近一级有定位的祖先元素来位移
+        脱标, 移动后原来得位置就没了, 会影响其他盒子的位置
+
+    固定定位:
+        以浏览器的可视窗口为参照点移动
+        不随滚动条移动
+        脱标, 不占有原来得位置
+-->
+    <div class="a"></div>
+    <div class="b"></div>
+    <hr>
+    <div class="c">
+        <div class="d"></div>
+    </div>
+
+    <div class="e"></div>
+    <p>2222222</p>
+    <p>2222222</p>
+    <p>2222222</p>
+    <p>2222222</p>
+    <p>2222222</p>
+    <p>2222222</p>
+    <p>2222222</p>
+    <p>2222222</p>
+    <p>2222222</p>
+    <p>2222222</p>
+    <p>2222222</p>
+    <p>2222222</p>
+    <p>2222222</p>
+    <p>2222222</p>
+    <p>2222222</p>
+    <p>2222222</p>
+    <p>2222222</p>
+    <p>2222222</p>
+    <p>2222222</p>
+    <p>2222222</p>
+    <p>2222222</p>
+</body>
+</html>
