@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+        li {
+            list-style: none;
+        }
+        .nav {
+            border-collapse: collapse;
+        }
+        a {
+            display: block;
+            width: 100px;
+            height: 50px;
+            line-height: 50px;
+            color: #050505;
+            background-color: #fff;
+            text-align: center;
+            text-decoration: none;
+            border: 1px solid orange;
+        }
+        a:hover {
+            background-color: #888888;
+        }
+        .nav {
+            width: 100px;
+            margin: 100px auto;
+        }
+
+        .list li {
+            display: block;
+            line-height: 30px;
+            border: 1px solid pink;
+            width: 100px;
+            height: 30px;
+        }
+        .list {
+            display: none;
+        }
+
+    </style>
+</head>
+<body>
+    <ul class="nav">
+        <li>
+            <a href="#" id="wb">weibo</a>
+            <ul class="list">
+                <li>@</li>
+                <li>comment</li>
+                <li>like</li>
+            </ul>
+            <div style="background-color: #00a4ff; width: 100px; height: 100px">
+
+            </div>
+        </li>
+    </ul>
+</body>
+</html>
+<script>
+    // 隐藏和展示
+    let wb = document.querySelector('#wb')
+    wb.onmouseover = function () {
+        wb.nextElementSibling.style.display = 'block'
+    }
+    wb.onmouseout = function () {
+        wb.nextElementSibling.style.display = 'none'
+    }
+</script>

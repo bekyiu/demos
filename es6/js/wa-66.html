@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        .father {
+            position: relative;
+            width: 300px;
+            height: 300px;
+            margin: 150px auto;
+            background-color: pink;
+        }
+
+        .son {
+            position: absolute;
+            top: 75px;
+            left: 75px;
+            width: 150px;
+            height: 150px;
+            background-color: skyblue;
+        }
+
+        img {
+            position: absolute;
+        }
+    </style>
+</head>
+<body>
+    <div class="father">
+        father
+        <div class="son">
+            son
+            <a href="https://www.baidu.com">baidu</a>
+            <p>nishino nanase</p>
+        </div>
+    </div>
+
+    <img src="../css/img/77.gif" alt="">
+</body>
+</html>
+
+<script>
+    let father = document.querySelector('.father')
+    let son = document.querySelector('.son')
+
+    /*
+    dom事件流: 事件流(又叫事件传播)描述的是从页面中接收事件的顺序
+    事件流分为捕获和冒泡阶段
+    捕获是从根到子元素, 冒泡是从子元素到根
+
+    事件委托: 给父节点添加监听, 通过冒泡影响每一个子节点
+     */
+
+    // 第三个参数为默认是false, 表示事件冒泡阶段, 为true表示事件捕获阶段
+    father.addEventListener('click', function (e) {
+        alert('father')
+    })
+
+    son.addEventListener('click', function (e) {
+        // 阻止事件冒泡
+        e.stopPropagation()
+        alert('son')
+    })
+
+    //-----------------------
+    // 阻止事件的默认行为, 例如a标签的跳转
+    let a = document.querySelector('.son a')
+    a.addEventListener('click', function (e) {
+        e.preventDefault()
+    })
+    let p = document.querySelector('p')
+    p.addEventListener('contextmenu', function(e) {
+        // 阻止右键弹出菜单
+        e.preventDefault()
+    })
+    p.addEventListener('selectstart', function(e) {
+        // 阻止选中文字
+        e.preventDefault()
+    })
+
+
+
+    document.addEventListener('click', function (e) {
+        // 鼠标点击距离可视区域左上角的 x, y
+        console.log(e.clientX)
+        console.log(e.clientY)
+        console.log('----------')
+        // 鼠标点击距离页面坐上角的x, y   例如页面有滚动条的情况, y的长度是向上到页面的顶端
+        console.log(e.pageX)
+        console.log(e.pageY)
+        console.log('----------')
+        // 距离电脑屏幕左上角的x, y 几乎无用
+        console.log(e.screenX)
+        console.log(e.screenY)
+    })
+
+    //----
+    let img = document.querySelector('img')
+    document.addEventListener('mousemove', function (e) {
+        img.style.left = e.pageX - img.width / 2 + 'px'
+        img.style.top = e.pageY - img.height / 2 + 'px'
+    })
+
+
+</script>

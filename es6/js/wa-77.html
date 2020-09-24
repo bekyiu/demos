@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+</body>
+</html>
+
+<script>
+    /*
+     * bom: 浏览器对象 提供了与浏览器交互的api, 包含了dom
+     * window是bom的顶级对象
+     * 在调用时window可以省略 例如 window.alert, window.document.query...
+     */
+
+    // 任何定义的全局变量和函数都会变成window中的属性和方法 let不行
+    var a = 10
+
+    function say(str) {
+        alert(str)
+    }
+
+    console.log(window.a)
+    window.say('haha')
+</script>
