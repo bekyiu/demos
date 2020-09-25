@@ -20,9 +20,19 @@
     var a = 10
 
     function say(str) {
+        console.log(this)
         alert(str)
     }
 
     console.log(window.a)
     window.say('haha')
+
+    /*
+    在全局作用域, 普通函数, 定时器中, this都指向window
+    可以看成在调用时省略了window
+     */
+    console.log(this)
+    setTimeout(function () {
+        console.log(this)
+    }, 1000)
 </script>
