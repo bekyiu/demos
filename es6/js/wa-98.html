@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+        }
+        .father {
+            position: absolute;
+            width: 200px;
+            height: 200px;
+            background-color: pink;
+            margin: 50px 0 0 100px;
+            overflow: hidden;
+        }
+
+        .son {
+            width: 50px;
+            height: 50px;
+            background-color: skyblue;
+            margin: 50px;
+        }
+
+        .w {
+            width: 200px;
+            height: 200px;
+            border: 10px solid orangered;
+            padding: 10px;
+        }
+
+        .model {
+            position: absolute;
+            width: 300px;
+            height: 200px;
+            background-color: forestgreen;
+        }
+    </style>
+</head>
+<body>
+    <div class="father">
+        <div class="son"></div>
+    </div>
+    <div class="w"></div>
+    <div class="model">
+        模态框
+    </div>
+</body>
+</html>
+
+<script>
+    let f = document.querySelector('.father')
+    let s = document.querySelector('.son')
+    // 距离顶部50px
+    console.log(f.offsetTop)
+    // 距离左侧100px
+    console.log(f.offsetLeft)
+    // 距离带有定位的父元素顶部的距离
+    console.log(s.offsetTop)
+    console.log(s.offsetLeft)
+    // 返回带有定位的父亲
+    console.log(s.offsetParent)
+    // 返回父元素
+    console.log(s.parentNode)
+
+    // 返回元素的宽高  包括了border和padding
+    let w = document.querySelector('.w')
+    console.log(w.offsetWidth)
+    console.log(w.offsetHeight)
+
+    // 移动模态框
+    let model = document.querySelector('.model')
+    model.addEventListener('mousedown', function (e) {
+        // 鼠标距离盒子左上角的x, y
+        let innerX = e.pageX - this.offsetLeft
+        let innerY = e.pageY - this.offsetTop
+
+        // 移动
+        function move (e) {
+            model.style.left = e.pageX - innerX + 'px'
+            model.style.top = e.pageY - innerY + 'px'
+        }
+        document.addEventListener('mousemove', move)
+
+        // 当鼠标弹起的时候移除跟随时间
+        document.addEventListener('mouseup', function () {
+            document.removeEventListener('mousemove', move)
+        })
+    })
+</script>
