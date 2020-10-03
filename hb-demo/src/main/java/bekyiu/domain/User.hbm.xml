@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+	"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+	"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping package="bekyiu.domain">
+	<class name="User" table="t_user">
+		
+		<id name="id" column="uid">
+			<generator class="native"/>
+		</id>
+		<property name="name" column="u_name" unique="true"/>
+		<property name="salary" column="u_salary"/>
+		<property name="hireDate" column="u_hiredate" type="date"/>
+	</class>
+</hibernate-mapping>
