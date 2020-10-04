@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+	"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+	"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping package="bekyiu.one2many">
+	<!--many-->
+	<class name="Employee">
+		<id name="id">
+			<generator class="native"/>
+		</id>
+		<property name="name"/>
+	</class>
+
+	<!--one-->
+	<class name="Department">
+		<id name="id">
+			<generator class="native"/>
+		</id>
+		<property name="deptName"/>
+		<bag name="list">
+			<!--one方的主键id 在 many方作为外键的名称-->
+			<key column="dept_id"/>
+			<one-to-many class="Employee" />
+		</bag>
+	</class>
+</hibernate-mapping>

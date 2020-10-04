@@ -10,6 +10,7 @@ import org.junit.Test;
 
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 
 /**
  * @Author: wangyc
@@ -36,7 +37,7 @@ public class CrudTest
         Transaction tx = session.beginTransaction();
         User user = session.get(User.class, 1L);
         // 会发送sql同步数据
-        user.setSalary(BigDecimal.TEN);
+        user.setSalary(BigDecimal.ZERO);
         System.out.println(user);
         tx.commit();
     }
@@ -60,6 +61,15 @@ public class CrudTest
         u.setName("77");
         u.setHireDate(new Date());
         session.saveOrUpdate(u);
+        tx.commit();
+    }
+
+    @Test
+    public void list()
+    {
+        Transaction tx = session.beginTransaction();
+        List<User> list = session.createQuery("select u from User u").list();
+        System.out.println(list);
         tx.commit();
     }
 }
