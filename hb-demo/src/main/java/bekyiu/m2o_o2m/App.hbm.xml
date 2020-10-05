@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+	"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+	"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping package="bekyiu.m2o_o2m">
+	<!--many-->
+	<class name="Employee">
+		<id name="id">
+			<generator class="native"/>
+		</id>
+		<property name="name"/>
+		<many-to-one name="dept" column="dept_id" class="Department"/>
+	</class>
+
+	<!--one-->
+	<class name="Department">
+		<id name="id">
+			<generator class="native"/>
+		</id>
+		<property name="deptName"/>
+		<!--让one方放弃维护关系, 不然要发多余的sql-->
+		<bag name="employees" inverse="true">
+			<key column="dept_id"/>
+			<one-to-many class="Employee" />
+		</bag>
+	</class>
+</hibernate-mapping>

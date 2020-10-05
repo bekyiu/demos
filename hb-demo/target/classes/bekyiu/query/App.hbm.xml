@@ -1,0 +1,66 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+	"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+	"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping package="bekyiu.query">
+	<class name="Department" table="department">
+		<id name="id">
+			<generator class="native"/>
+		</id>
+		<property name="name"/>
+		<property name="sn"/>
+		<!--组件映射-->
+		<component name="address">
+			<property name="city"/>
+			<property name="province" column="provice"/>
+			<property name="street"/>
+		</component>
+		<!--
+		one to one 是特殊的 many to one
+		比如一个部门应当只有一个部门经理, 一个部门经理只能对应一个部门
+		这里也配的是many to one
+		可以加上 unique="true"
+		-->
+		<many-to-one name="manager" column="MANAGER_ID" />
+	</class>
+
+	<class name="Employee" table="employee">
+		<id name="id">
+			<generator class="native"/>
+		</id>
+		<property name="name"/>
+		<many-to-one name="dept" column="dept_id"/>
+		<property name="salary" column="salay"/>
+		<property name="hireDate" type="date"/>
+	</class>
+
+	<class name="Phone" table="phone">
+		<id name="id">
+			<generator class="native"/>
+		</id>
+		<!--枚举映射-->
+		<property name="types">
+			<!--中间类型-->
+			<type name="org.hibernate.type.EnumType">
+				<!--对应自己的枚举类型-->
+				<param name="enumClass">bekyiu.query.PhoneType</param>
+				<param name="useNamed">true</param>
+			</type>
+		</property>
+		<many-to-one name="employee" column="employee_id"/>
+	</class>
+
+	<class name="Project" table="project">
+		<id name="id">
+			<generator class="native"/>
+		</id>
+		<property name="name"/>
+		<many-to-one name="manager" column="manager_id"/>
+		<!--项目和员工是many to many-->
+		<bag name="employees" table="project_employee">
+			<key column="project_id"/>
+			<many-to-many class="Employee" column="employee_id"/>
+		</bag>
+	</class>
+</hibernate-mapping>

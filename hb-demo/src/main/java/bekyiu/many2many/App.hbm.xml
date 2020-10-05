@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+	"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+	"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping package="bekyiu.many2many">
+	<!--many-->
+	<class name="Teacher">
+		<id name="id">
+			<generator class="native"/>
+		</id>
+		<property name="name"/>
+		<!--table写中间表-->
+		<bag name="students" table="students_teachers">
+			<!--自己的id在中间表中的名称-->
+			<key column="t_id"/>
+			<many-to-many class="Student" column="s_id"/>
+		</bag>
+	</class>
+
+	<!--many-->
+	<class name="Student">
+		<id name="id">
+			<generator class="native"/>
+		</id>
+		<property name="name"/>
+		<!--让一方放弃维护关系-->
+		<bag name="teachers" table="students_teachers" inverse="true">
+			<key column="s_id"/>
+			<many-to-many class="Teacher" column="t_id" />
+		</bag>
+	</class>
+</hibernate-mapping>
