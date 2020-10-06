@@ -4,6 +4,9 @@
 	"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 
 <hibernate-mapping package="bekyiu.query">
+	<!--设置别名-->
+	<import class="bekyiu.query.EmployeeVO" rename="EmployeeVO"/>
+
 	<class name="Department" table="department">
 		<id name="id">
 			<generator class="native"/>
@@ -63,4 +66,12 @@
 			<many-to-many class="Employee" column="employee_id"/>
 		</bag>
 	</class>
+
+	<query name="findById">
+		SELECT e FROM Employee e WHERE e.id = ?
+	</query>
+
+	<sql-query name="findByName">
+		SELECT * FROM employee WHERE name LIKE ?
+	</sql-query>
 </hibernate-mapping>
