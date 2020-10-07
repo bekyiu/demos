@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:jpa="http://www.springframework.org/schema/data/jpa"
+       xmlns:task="http://www.springframework.org/schema/task"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/aop
+       http://www.springframework.org/schema/aop/spring-aop.xsd
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context.xsd
+       http://www.springframework.org/schema/jdbc
+       http://www.springframework.org/schema/jdbc/spring-jdbc.xsd
+       http://www.springframework.org/schema/tx
+       http://www.springframework.org/schema/tx/spring-tx.xsd
+       http://www.springframework.org/schema/data/jpa
+       http://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
+
+    <!--
+        与spring data jpa整合
+        1.配置数据源
+        2.配置entityManagerFactory
+        3.配置事务管理器
+        4.配置事务
+        5.配置对哪里的接口做增强
+    -->
+    <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource"
+          init-method="init" destroy-method="close">
+        <property name="driverClassName" value="com.mysql.jdbc.Driver"/>
+        <property name="username" value="root"/>
+        <property name="password" value="Louise"/>
+        <property name="url" value="jdbc:mysql:///jpa_demo"/>
+    </bean>
+
+    <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+        <property name="dataSource" ref="dataSource"/>
+        <!--要被管理的实体-->
+        <property name="packagesToScan">
+            <array>
+                <value>bekyiu.domain</value>
+                <value>bekyiu.many2one_one2many.domain</value>
+            </array>
+        </property>
+        <!--jpa的实现厂家-->
+        <property name="persistenceProvider">
+            <bean class="org.hibernate.jpa.HibernatePersistenceProvider"/>
+        </property>
+        <!--jpa的供应商适配器 -->
+        <property name="jpaVendorAdapter">
+            <bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
+                <!--配置是否自动创建数据库表 -->
+                <property name="generateDdl" value="false" />
+                <!--指定数据库类型 -->
+                <property name="database" value="MYSQL" />
+                <!--数据库方言：支持的特有语法 -->
+                <property name="databasePlatform" value="org.hibernate.dialect.MySQL5Dialect" />
+                <!--是否显示sql -->
+                <property name="showSql" value="true" />
+            </bean>
+        </property>
+        <!--jpa方言-->
+        <property name="jpaDialect">
+            <bean class="org.springframework.orm.jpa.vendor.HibernateJpaDialect"/>
+        </property>
+        <!--
+            注入jpa的配置信息 和 jpa实现方式(hibernate)的配置信息
+        -->
+        <property name="jpaProperties">
+            <props>
+                <prop key="hibernate.hbm2ddl.auto">update</prop>
+                <prop key="hibernate.format_sql">true</prop>
+            </props>
+        </property>
+    </bean>
+
+    <bean id="txManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+        <property name="entityManagerFactory" ref="entityManagerFactory"/>
+    </bean>
+
+    <tx:advice id="crudAdvice" transaction-manager="txManager">
+        <tx:attributes>
+            <tx:method name="get*" read-only="true"/>
+            <tx:method name="query*" read-only="true"/>
+            <tx:method name="list*" read-only="true"/>
+            <tx:method name="*"/>
+        </tx:attributes>
+    </tx:advice>
+    <aop:config>
+        <aop:pointcut id="txPoint" expression="execution(* bekyiu.service.*Service.*(..))"/>
+        <aop:advisor advice-ref="crudAdvice" pointcut-ref="txPoint"/>
+    </aop:config>
+
+    <jpa:repositories base-package="bekyiu.many2one_one2many.dao" transaction-manager-ref="txManager"
+                      entity-manager-factory-ref="entityManagerFactory" />
+
+
+
+    <!--ioc-->
+    <context:component-scan base-package="bekyiu"/>
+    <!--di-->
+    <context:annotation-config/>
+</beans>

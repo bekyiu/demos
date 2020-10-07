@@ -1,4 +1,4 @@
-package bekyiu.many2one;
+package bekyiu.many2one_one2many;
 
 import bekyiu.util.HibernateUtil;
 import org.hibernate.Session;

@@ -3,7 +3,7 @@
 	"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 	"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 
-<hibernate-mapping package="bekyiu.many2one">
+<hibernate-mapping package="bekyiu.many2one_one2many">
 	<!--many-->
 	<class name="Employee">
 		<id name="id">
