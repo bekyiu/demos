@@ -43,6 +43,7 @@
             <array>
                 <value>bekyiu.domain</value>
                 <value>bekyiu.many2one_one2many.domain</value>
+                <value>bekyiu.many2many.domain</value>
             </array>
         </property>
         <!--jpa的实现厂家-->

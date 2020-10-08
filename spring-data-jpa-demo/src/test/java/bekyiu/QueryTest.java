@@ -37,7 +37,7 @@ public class QueryTest
     @Test
     // 需要事务才能执行
     @Transactional
-    // 执行完之后不要回滚
+    // junit的事务执行完之后默认是要回滚的, 设置不回滚
     @Rollback(false)
     public void t2()
     {

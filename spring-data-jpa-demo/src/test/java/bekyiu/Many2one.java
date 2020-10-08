@@ -47,9 +47,33 @@ public class Many2one
     @Test
     public void find()
     {
-        LinkMan man = linkManDao.findOne(4L);
+        // 从many方获取one方默认是立即加载
+        // 反过来是延迟加载
+        LinkMan man = linkManDao.findOne(1L);
         System.out.println(man.getLkmName());
         System.out.println("============================");
         System.out.println(man.getCustomer().getCustName());
+    }
+
+    @Test
+    @Transactional
+    public void lazy()
+    {
+        // 延迟加载
+        Customer c = customerDao.findOne(1L);
+        System.out.println(c.getCustName());
+        System.out.println("============================");
+        System.out.println(c.getLinkMan().size());
+    }
+
+    // 测试是否会有同步脏数据的问题
+    // 结论: 会
+    @Test
+    @Transactional
+    @Rollback(false)
+    public void t()
+    {
+        LinkMan man = linkManDao.findOne(1L);
+        man.setLkmEmail("6517@xx.xx");
     }
 }
