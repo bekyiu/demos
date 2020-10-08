@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <!--引入extjs样式文件-->
+    <link rel="stylesheet" type="text/css" href="ext/classic/theme-triton/resources/theme-triton-all.css"/>
+    <!--引入js-->
+    <script src="ext/ext-all.js"></script>
+    <!--国际化-->
+    <script src="ext/classic/locale/locale-zh_CN.js"></script>
+</head>
+<body>
+
+</body>
+</html>
+<script>
+    let buildModel = function () {
+        // 建立一个store要使用的 model
+        Ext.define('User', {
+            extend: 'Ext.data.Model',
+            fields: [
+                {name: 'username', type: 'string'},
+                {name: 'realName', type: 'string'},
+                {name: 'hireDate', type: 'date'},
+                {name: 'phone', type: 'string'},
+                {name: 'status', type: 'bool'},
+            ]
+        })
+    }
+
+    let userListAjax = function () {
+        return Ext.create('Ext.data.Store', {
+            model: 'User',
+            proxy: {
+                type: 'ajax',
+                url: 'http://localhost:9999/users',
+                reader: {
+                    type: 'json',
+                    rootProperty: 'data'
+                },
+                // 携带请求参数
+                extraParams: {
+                    code: '11'
+                },
+            },
+            // 创建的时候就发送请求
+            // autoLoad: true
+            autoLoad: {
+                start: 0,
+                limit: 5,
+            },
+            pageSize: 5,
+        })
+    }
+
+    let tableColumns = function () {
+        return [
+            // 行号
+            {xtype: 'rownumberer', width: 30, align: 'center'},
+            {header: '用户名', dataIndex: 'username'},
+            {header: '姓名', dataIndex: 'realName'},
+            {
+                header: '入职时间', dataIndex: 'hireDate', renderer(date) {
+                    // 重新渲染要展示的数据
+                    return date.toLocaleString()
+                }
+            },
+            {header: '电话', dataIndex: 'phone'},
+            {
+                header: '状态', dataIndex: 'status', renderer(value) {
+                    return value ? '在职' : '<font color="red">离职</font>'
+                }
+            },
+        ]
+    }
+
+    let topBar = function () {
+        return [
+            {
+                xtype: 'button', text: '新增', icon: '../css/img/age.png', border: false, handler() {
+                }
+            },
+            {
+                xtype: 'button', text: '编辑', icon: '../css/img/age.png', border: false, handler() {
+                }
+            },
+            {
+                xtype: 'button', text: '删除', icon: '../css/img/age.png', border: false, handler() {
+                }
+            },
+            {
+                xtype: 'button', text: '刷新', icon: '../css/img/age.png', border: false, handler() {
+                }
+            },
+        ]
+    }
+
+    let pageBar = function (myStore) {
+        return {
+            xtype: 'pagingtoolbar',
+            displayInfo: true,
+            store: myStore,
+        }
+    }
+
+    let userTable = function (myStore) {
+        Ext.create('Ext.grid.Panel', {
+            title: '用户管理',
+            icon: '../css/img/email.png',
+            store: myStore,
+            // 列宽度平分一行
+            forceFit: true,
+            // 边框
+            columnLines: true,
+            columns: tableColumns(),
+            // 分页条
+            bbar: pageBar(myStore),
+            // 顶部按钮
+            tbar: topBar(),
+            // height: 200,
+            // width: 400,
+            renderTo: Ext.getBody()
+        })
+    }
+
+    let saveFormEls = function () {
+        return [{
+            name: 'id',
+            hidden: true,
+        }, {
+            id: 'username',
+            fieldLabel: '用户名',
+            name: 'username',
+            allowBlank: false
+        }, {
+            fieldLabel: '真实姓名',
+            name: 'realName',
+        }, {
+            fieldLabel: '入职时间',
+            name: 'hireDate',
+            xtype: 'datefield',
+            format: 'Y-m-d',
+        }, {
+            fieldLabel: '电话',
+            name: 'phone',
+        }, {
+            fieldLabel: '状态',
+            name: 'status',
+            xtype: 'combobox',
+            store: new Ext.data.ArrayStore({
+                fields: ['value', 'text'],
+                data: [[true, '在职'], [false, '离职']]
+            }),
+            valueField: 'value',
+            displayField: 'text',
+        }]
+    }
+
+    let saveUserAjax = function (form) {
+        Ext.Ajax.request({
+            url: 'http://localhost:9999/save',
+            method: 'post',
+            // params: form.getValues(),
+            // 以json的形式发送ajax
+            jsonData: form.getValues(),
+            success(resp, option) {
+                let ret = Ext.util.JSON.decode(resp.responseText)
+                if (ret.code === '2000') {
+                    Ext.Msg.alert('提示', ret.data)
+                }
+            },
+            failure(resp, option) {
+                console.log(resp)
+            }
+        })
+    }
+
+    let saveForm = function () {
+        return Ext.create('Ext.form.Panel', {
+            bodyPadding: 30,
+            // 表单域 Fields 将被竖直排列, 占满整个宽度
+            layout: 'anchor',
+            defaults: {
+                anchor: '100%'
+            },
+            // The fields
+            defaultType: 'textfield',
+            // 表单元素
+            items: saveFormEls(),
+
+            // 重置 和 保存 按钮.
+            buttons: [{
+                text: '重置',
+                handler: function () {
+                    this.up('form').getForm().reset()
+                }
+            }, {
+                text: '保存',
+                formBind: true, //only enabled once the form is valid
+                disabled: true,
+                handler: function () {
+                    let form = this.up('form').getForm()
+                    if (form.isValid()) {
+                        saveUserAjax(form)
+                    }
+                }
+            }],
+        })
+    }
+
+    Ext.onReady(function () {
+        buildModel()
+        let myStore = userListAjax()
+        userTable(myStore)
+        let form = saveForm()
+        Ext.create('Ext.window.Window', {
+            title: '新增员工',
+            height: 400,
+            width: 400,
+            layout: 'fit',
+            items: form,
+        }).show()
+    })
+</script>

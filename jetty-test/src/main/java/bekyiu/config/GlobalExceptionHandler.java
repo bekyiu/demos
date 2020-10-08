@@ -18,7 +18,7 @@ public class GlobalExceptionHandler
     public String all(Exception ex)
     {
         log.error("===========1=============");
-        log.error(ex.getMessage());
+        ex.printStackTrace();
         return "all";
     }
 

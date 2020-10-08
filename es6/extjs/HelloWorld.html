@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <!--引入extjs样式文件-->
+    <link rel="stylesheet" type="text/css" href="ext/classic/theme-triton/resources/theme-triton-all.css"/>
+    <!--引入js-->
+    <script src="ext/ext-all-debug.js"></script>
+</head>
+<body>
+<div id="helloWorldPanel"></div>
+</body>
+</html>
+
+<script>
+    Ext.onReady(function () {
+
+        // 使用create方法创建对象
+        let p = Ext.create('Ext.panel.Panel', {
+            renderTo: 'helloWorldPanel',
+            height: 100,
+            width: 200,
+            title: 'Hello world',
+            html: '1',
+            listeners: {
+                close: function() {
+                    console.log('1 close')
+                }
+            }
+        })
+
+        // 使用new方法创建对象
+        let p1 = new Ext.panel.Panel({
+            // renderTo: 'helloWorldPanel',
+            height: 100,
+            width: 200,
+            title: 'Hello world',
+            html: '2',
+        })
+        Ext.MessageBox.alert('温馨提示', 'hello world', function () {
+            p1.render(Ext.getBody())
+            p1.close()
+        })
+        p.close()
+        // 监听
+        p1.addListener('close', function () {
+            console.log('2 close')
+        })
+    })
+</script>
