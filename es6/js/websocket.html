@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+        .screen {
+            width: 800px;
+            height: 500px;
+            margin: 50px auto;
+            background-color: pink;
+        }
+        .top {
+            height: 350px;
+            background-color: skyblue;
+        }
+        .content, .member {
+            float: left;
+            height: 350px;
+        }
+        .content {
+            width: 70%;
+            background-color: yellowgreen;
+        }
+        .member {
+            width: 30%;
+            background-color: goldenrod;
+        }
+        .input {
+            height: 150px;
+            background-color: deepskyblue;
+        }
+    </style>
+</head>
+<body>
+    <div class="screen">
+        <div class="top">
+            <div class="content">
+                <p>聊天内容</p>
+            </div>
+            <div class="member">
+                <p>nanase</p>
+                <p>nanase</p>
+                <p>nanase</p>
+            </div>
+        </div>
+        <div class="input">
+            <textarea></textarea>
+            <button>发送</button>
+        </div>
+    </div>
+</body>
+</html>
+
+<script>
+    let url = 'ws://127.0.0.1:8080/chat/'
+    let ws = new WebSocket(url + location.search.split('=')[1])
+
+    ws.onopen = function () {
+        console.log('open')
+    }
+
+    ws.onmessage = function (event) {
+        let resp = JSON.parse(event.data)
+        if(resp.isSystemInfo) {
+            let content = document.querySelector('.content')
+            content.insertAdjacentHTML('beforeEnd', chatTemplate(resp.data))
+        }
+    }
+
+    ws.onclose = function () {
+        console.log('close')
+    }
+
+
+    function chatTemplate(str) {
+        return `<p>${str}</p>`
+    }
+</script>
