@@ -8,28 +8,34 @@
             margin: 0;
             padding: 0;
         }
+
         .screen {
             width: 800px;
             height: 500px;
             margin: 50px auto;
             background-color: pink;
         }
+
         .top {
             height: 350px;
             background-color: skyblue;
         }
+
         .content, .member {
             float: left;
             height: 350px;
         }
+
         .content {
             width: 70%;
             background-color: yellowgreen;
         }
+
         .member {
             width: 30%;
             background-color: goldenrod;
         }
+
         .input {
             height: 150px;
             background-color: deepskyblue;
@@ -37,38 +43,59 @@
     </style>
 </head>
 <body>
-    <div class="screen">
-        <div class="top">
-            <div class="content">
-                <p>聊天内容</p>
-            </div>
-            <div class="member">
-                <p>nanase</p>
-                <p>nanase</p>
-                <p>nanase</p>
-            </div>
+<div class="screen">
+    <div class="top">
+        <div class="content">
+            <p>聊天内容</p>
         </div>
-        <div class="input">
-            <textarea></textarea>
-            <button>发送</button>
+        <div class="member">
+            <p>在线人员</p>
         </div>
     </div>
+    <div class="input">
+        <textarea id="input_msg"></textarea>
+        <button id="send_btn">发送</button>
+    </div>
+</div>
 </body>
 </html>
 
 <script>
     let url = 'ws://127.0.0.1:8080/chat/'
-    let ws = new WebSocket(url + location.search.split('=')[1])
+    // userId
+    let id = location.search.split('=')[1]
+    let ws = new WebSocket(url + id)
 
     ws.onopen = function () {
         console.log('open')
+        // 获取所有的在线用户
+        ajaxGet('GET', 'http://localhost:8080/onlineUsers', function (req, data) {
+            let member = document.querySelector('.member')
+            member.innerHTML = '<p>在线人员</p>'
+            JSON.parse(data).forEach(userId => {
+                member.insertAdjacentHTML('beforeEnd', chatTemplate(userId, userId))
+            })
+        })
     }
 
     ws.onmessage = function (event) {
         let resp = JSON.parse(event.data)
-        if(resp.isSystemInfo) {
-            let content = document.querySelector('.content')
-            content.insertAdjacentHTML('beforeEnd', chatTemplate(resp.data))
+        let userId = resp.userId
+        // 聊天内容增加
+        let content = document.querySelector('.content')
+        content.insertAdjacentHTML('beforeEnd', chatTemplate(resp.data, userId))
+        if (resp.isSystemInfo) {
+            let member = document.querySelector('.member')
+            // 增减在线人员列表
+            if (resp.online) {
+                member.insertAdjacentHTML('beforeEnd', chatTemplate(userId, userId))
+            } else {
+                for (const m of member.children) {
+                    if (m.dataset['userId'] === userId) {
+                        member.removeChild(m)
+                    }
+                }
+            }
         }
     }
 
@@ -76,8 +103,31 @@
         console.log('close')
     }
 
+    // 发送消息
+    document.querySelector('#send_btn').addEventListener('click', function () {
+        let msg = document.querySelector('#input_msg')
+        let content = msg.value
+        msg.value = ''
+        ws.send(JSON.stringify({"msg": content}))
+    })
 
-    function chatTemplate(str) {
-        return `<p>${str}</p>`
+    function chatTemplate(str, userId) {
+        if (userId === id) {
+            return `<p data-user-id="${userId}" style="color: red">${str}</p>`
+        }
+        return `<p data-user-id="${userId}">${str}</p>`
+    }
+
+
+    function ajaxGet(method, url, callback) {
+        let req = new XMLHttpRequest()
+        req.onreadystatechange = function () {
+            if (req.readyState === 4 && req.status === 200) {
+                callback(this, req.responseText)
+            }
+        }
+        // 发送请求:
+        req.open(method, url)
+        req.send()
     }
 </script>

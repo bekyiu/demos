@@ -11,12 +11,14 @@ import java.util.Map;
  */
 public class MessageUtils
 {
-    public static String buildJson(String userId, String username, Boolean isSystemInfo, Object data)
+    public static String buildJson(String userId, String username,
+                                   Boolean online, Boolean isSystemInfo, Object data)
     {
         Map<String, Object> map = new HashMap<>();
         map.put("userId", userId);
         map.put("username", username);
         map.put("isSystemInfo", isSystemInfo);
+        map.put("online", online);
         map.put("data", data);
         return JSON.toJSONString(map);
     }

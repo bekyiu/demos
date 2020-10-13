@@ -1,6 +1,7 @@
 package bekyiu.ws;
 
 import bekyiu.utils.MessageUtils;
+import com.alibaba.fastjson.JSONObject;
 import org.springframework.stereotype.Component;
 
 import javax.websocket.*;
@@ -8,6 +9,7 @@ import javax.websocket.server.PathParam;
 import javax.websocket.server.ServerEndpoint;
 import java.io.IOException;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
@@ -31,7 +33,7 @@ public class ChatEndpoint
         this.session = session;
         onlineUsers.put(userId, this);
         String data = "[ 系统 ]: 用户 [ " + userId + " ] 已上线";
-        bordercast(MessageUtils.buildJson(userId, null, true, data));
+        bordercast(MessageUtils.buildJson(userId, null, true, true, data));
     }
 
     private void bordercast(String content)
@@ -52,9 +54,11 @@ public class ChatEndpoint
 
     // 接收到客户端发送的数据时被调用
     @OnMessage
-    public void onMessage(String msg, Session session)
+    public void onMessage(String msg, Session session, @PathParam("userId") String userId)
     {
-
+        Map<String, String> map = JSONObject.parseObject(msg, Map.class);
+        String data = "用户 [ " + userId + " ] : " + map.get("msg");
+        bordercast(MessageUtils.buildJson(userId, null, null, false, data));
     }
 
     // 关闭连接时被调用
@@ -64,6 +68,11 @@ public class ChatEndpoint
         System.out.println(userId + ": 断开连接");
         onlineUsers.remove(userId);
         String data = "[ 系统 ]: 用户 [ " + userId + " ] 已下线";
-        bordercast(MessageUtils.buildJson(userId, null, true, data));
+        bordercast(MessageUtils.buildJson(userId, null, false, true, data));
+    }
+
+    public static Set<String> getOnlineUsers()
+    {
+        return onlineUsers.keySet();
     }
 }
