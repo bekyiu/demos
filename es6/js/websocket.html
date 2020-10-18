@@ -66,6 +66,7 @@
     let id = location.search.split('=')[1]
     let ws = new WebSocket(url + id)
 
+    // 建立连接成功后
     ws.onopen = function () {
         console.log('open')
         // 获取所有的在线用户
