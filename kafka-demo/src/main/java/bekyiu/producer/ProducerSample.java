@@ -16,6 +16,7 @@ import java.util.concurrent.Future;
 public class ProducerSample
 {
     private static final String TOPIC = "nishino-nanase";
+    // 线程安全
     private Producer<String, String> producer;
 
     @Before
@@ -37,7 +38,7 @@ public class ProducerSample
         config.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, "org.apache.kafka.common.serialization.StringSerializer");
         config.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, "org.apache.kafka.common.serialization.StringSerializer");
         // 自定义负载均衡到哪个partition
-        // config.put(ProducerConfig.PARTITIONER_CLASS_CONFIG, "bekyiu.producer.SamplePartition");
+         config.put(ProducerConfig.PARTITIONER_CLASS_CONFIG, "bekyiu.producer.SamplePartition");
 
         producer = new KafkaProducer<>(config);
     }
