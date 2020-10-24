@@ -1,4 +1,4 @@
-package bekyiu.helloworld;
+package bekyiu.listen;
 
 import bekyiu.taskqueue.TaskQueueServerHandler;
 import io.netty.bootstrap.ServerBootstrap;
@@ -7,6 +7,8 @@ import io.netty.channel.ChannelInitializer;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
+import io.netty.util.concurrent.Future;
+import io.netty.util.concurrent.GenericFutureListener;
 
 /**
  * @Author: wangyc
@@ -16,11 +18,6 @@ public class Server
 {
     public static void main(String[] args) throws InterruptedException
     {
-        /*
-        两个线程池
-        boss只处理建立连接的请求 业务交给work
-        线程数量 = cpu核数 * 2
-         */
         NioEventLoopGroup boss = new NioEventLoopGroup();
         NioEventLoopGroup work = new NioEventLoopGroup();
 
@@ -32,11 +29,27 @@ public class Server
             @Override
             protected void initChannel(SocketChannel ch) throws Exception
             {
-                ch.pipeline().addLast(new TaskQueueServerHandler());
+                System.out.println(ch);
             }
         });
-
-        ChannelFuture cf = bootstrap.bind(7777).sync();
+        // 异步绑定端口号
+        ChannelFuture cf = bootstrap.bind(7777);
+        // 监听端口号是否绑定成功
+        cf.addListener(new GenericFutureListener<Future<? super Void>>()
+        {
+            @Override
+            public void operationComplete(Future<? super Void> future) throws Exception
+            {
+                if (future.isSuccess())
+                {
+                    System.out.println("绑定端口号成功");
+                }
+                else
+                {
+                    System.out.println("绑定端口号失败");
+                }
+            }
+        });
         System.out.println("server started...");
         cf.channel().closeFuture().sync();
         boss.shutdownGracefully();
