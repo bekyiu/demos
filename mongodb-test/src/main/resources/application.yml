@@ -1,0 +1,12 @@
+spring:
+  data:
+    mongodb:
+      host: 127.0.0.1
+      database: article
+      port: 27017
+      #也可以使用uri连接
+      #uri: mongodb://192.168.40.134:27017/articledb
+# 打印查询语句
+logging:
+  level:
+    org.springframework.data.mongodb.core.MongoTemplate: DEBUG
