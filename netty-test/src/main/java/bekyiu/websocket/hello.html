@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+</body>
+</html>
+<script>
+    let ws = new WebSocket("ws://127.0.0.1:7777/hello")
+    // 建立连接成功后
+    ws.onopen = function (event) {
+        console.log('连接建立')
+    }
+    ws.onmessage = function (event) {
+        console.log(event.data)
+    }
+    ws.onclose = function () {
+        console.log('连接关闭')
+    }
+
+    function send(msg) {
+        if (ws.readyState === WebSocket.OPEN) {
+            // TextWebSocketFrame
+            ws.send(msg)
+        }
+    }
+</script>
