@@ -34,7 +34,9 @@ public class WordCount2
                     out.collect(new Tuple2<>(token, 1));
                 });
             }
-        }).keyBy(0).timeWindow(Time.seconds(5)).sum(1).print().setParallelism(1);
+        }).keyBy(0)
+                // 一个10s的窗口, 累计10s统一处理
+                .timeWindow(Time.seconds(100)).sum(1).print().setParallelism(1);
 
         // 使用流式计算必须要写这个
         env.execute();

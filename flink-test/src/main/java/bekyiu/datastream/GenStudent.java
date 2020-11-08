@@ -15,6 +15,7 @@ public class GenStudent implements SourceFunction<Student>
         for (int i = 0; i < 10; i++)
         {
             Student s = new Student();
+            s.setId(7L);
             s.setAge(i);
             s.setName("name" + i);
             ctx.collect(s);
