@@ -1,6 +1,8 @@
 package bekyiu.controller;
 
 import bekyiu.domain.User;
+import bekyiu.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -16,6 +18,9 @@ import java.util.*;
 @RestController
 public class DataController
 {
+    @Autowired
+    private UserService userService;
+
     @GetMapping("/users")
     public ResponseEntity<Map<String, Object>> data()
     {
@@ -46,5 +51,13 @@ public class DataController
         res.put("code", "2000");
         res.put("data", "保存成功!");
         return ResponseEntity.ok(res);
+    }
+
+    @GetMapping("/cache")
+    public User testCache(Long id, Integer start) {
+        Map<String, Object> res = new HashMap<>();
+        res.put("id", id);
+        res.put("start", start);
+        return userService.get(res);
     }
 }
