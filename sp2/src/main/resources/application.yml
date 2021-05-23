@@ -1,3 +1,15 @@
 pet:
   name: aa
   age: 5
+  eyes:
+    - left
+    - right
+  skills:
+    jump: 10
+    bark: 20
+
+spring:
+  mvc:
+    static-path-pattern: /static/**
+  resources:
+    static-locations: classpath:/nanase/
